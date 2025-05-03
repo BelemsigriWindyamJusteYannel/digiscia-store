@@ -1,5 +1,5 @@
 import Header from './Components/header/header'
-//import BackBlur from './Components/background/BackBlur'
+import BackBlur from './Components/background/BackBlur'
 import Categories from './Components/sideBars/Categories/Categories'
 import Filter from './Components/sideBars/Filter/Filter'
 import Path from './Components/path/Path';
@@ -11,9 +11,10 @@ import './App.css'
 
 const App = () => {
   return(
-    <div className='w-full'>
+    <div className='relative h-1600 flex-col justify-between'>
       <Header/>
       <Path/>
+      <BackBlur/>
       <Filter/>
       <Item/>
       <Footer/>
