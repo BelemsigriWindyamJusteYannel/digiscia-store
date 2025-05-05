@@ -6,7 +6,7 @@ const Filter = () => {
     return(
         <>
             <div className='border border-gray-100 w-60 rounded-3xl p-5 space-y-2'>
-                <div className='rounded-xl pt-1 pb-1 flex justify-center bg-gray-200'>
+                <div className='rounded-xl pt-2 pb-2 flex justify-center bg-blue-400'>
                     <h2 className='font-bold'>Filter</h2>
                 </div>
                 <div>
@@ -19,7 +19,6 @@ const Filter = () => {
                     </div>
                 </div>
             </div>
-            <Categories/>
         </>
         
     )

@@ -6,7 +6,7 @@ import { Plus } from 'lucide-react';
 const Item = () => {
     return(
         <>
-            <div className='border border-gray-100 rounded-2xl w-45 flex-col p-2 space-y-2'>
+            <article className='border border-gray-100 rounded-2xl w-45 flex-col p-2 space-y-2'>
                 <h3>HP Laptop 15 yy</h3>
                 <div className='border border-green-200 w-15 rounded-2xl flex justify-center bg-green-200'>
                     <p>-80%</p>
@@ -18,7 +18,7 @@ const Item = () => {
                         <Plus />
                     </button>
                 </div>
-            </div>
+            </article>
         </>
     )
 }

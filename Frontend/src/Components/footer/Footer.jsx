@@ -1,10 +1,10 @@
 import './Footer.css'
 import { Copyright,Facebook,Instagram   } from 'lucide-react';
 const Footer = () => {
-    return <div className='absolute bottom-0 left-0 right-0 pt-10'>
+    return <div className='relative bottom-0 left-0 right-0 pt-10'>
         <section className='flex justify-around pb-5'>
             <div className='flex-col space-y-2 '>
-                <h2 className='font-extrabold text-2xl'>ElectroInfos</h2>
+                <h2 className='font-extrabold text-2xl'>DigiScia</h2>
                 <div className='flex justify-center'>
                     <img className='w-20 h-20' src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Electron_Software_Framework_Logo.svg/langfr-800px-Electron_Software_Framework_Logo.svg.png" alt="ElectroInfos" />
                 </div>
