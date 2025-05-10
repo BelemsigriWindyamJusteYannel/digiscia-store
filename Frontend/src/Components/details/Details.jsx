@@ -4,7 +4,7 @@ import Item from '../item/Item'
 import { ChevronRight,ChevronLeft } from 'lucide-react'
 const Details = () => {
     return(
-        <div className='w-200 p-10 space-y-10 ml-30'>
+        <div className='w-200 bg-[#ffffff] rounded-2xl p-10 space-y-10 ml-30 '>
             <div className='flex w-full justify-around'>
                 <img className='w-60 h-50 rounded-sm' src={image} alt="Laptop" />
                 <div className='space-y-5' >
@@ -24,8 +24,8 @@ const Details = () => {
                 </p>
             </div>
             <div className='space-y-5 overflow-hidden '>
-                <h1 className='font-bold text-center border-b border-gray-200'>Produits similaire</h1>
-                <div className='flex overflow-x-scroll gap-5 w-400 p-5'>
+                <h1 className='font-bold text-center border-b border-gray-200 '>Produits similaire</h1>
+                <div className='flex overflow-x-scroll translate-1 gap-5 w-400 p-5 '>
                     <Item/>
                     <Item/>
                     <Item/>

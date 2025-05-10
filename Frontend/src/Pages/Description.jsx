@@ -9,18 +9,14 @@ import Categories from "../Components/sideBars/Categories/Categories";
 
 const Description = () => {
     return (
-        <div className="relative bottom-0 top-0">
-            <BackBlur/>
-            <Header/>
-            <Path/>
+        <div className="flex-col justify-between h-max">
             <div className="flex p-10">
-                <div className="space-y-5">
+                <div className="space-y-5 bg-gray-200 p-10 h-screen rounded-2xl sticky top-0">
                     <Filter/>
                     <Categories/>
                 </div>
                 <Details/>
             </div>
-            <Footer/>
         </div>
     )
 }

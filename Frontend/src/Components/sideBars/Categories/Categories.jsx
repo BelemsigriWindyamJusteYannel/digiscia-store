@@ -1,18 +1,21 @@
 import './Categories.css';
+import { Link } from 'react-router-dom';
+import { exemples } from './exmples';
 
 const Categories = () =>{
     return(
-        <div className='border border-gray-100 w-60 rounded-3xl p-5'>
-            <div className='rounded-xl pt-2 pb-2 flex justify-center bg-blue-400'>
+        <div className='border border-gray-200 w-60 rounded-sm p-5 space-y-5 bg-gray-200'>
+            <div className='rounded-xl py-2 flex justify-center bg-blue-400'>
                 <h2 className='font-bold'>Categories</h2>
             </div>
             <ul>
-                <li>Arduino</li>
-                <li>Ordinateur</li>
-                <li>Controllers</li>
-                <li>Disque Dures</li>
-                <li>Raspberry Pi</li>
-                <li>Clé USB</li>
+                {
+                    exemples.map((categorie, index)=>(
+                        <Link to="/CategoriesPage" key={index} >
+                            <li className='border-b border-gray-500'><a href="#">{categorie}</a></li>
+                        </Link>
+                    ))
+                }
             </ul>
         </div>
     )

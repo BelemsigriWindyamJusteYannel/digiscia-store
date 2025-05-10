@@ -3,13 +3,15 @@ import Item from '../item/Item';
 
 const List = () => {
     return(
-        <div className='w-200 p-10 space-y-5'>
+        <div className='w-200 p-10 space-y-5 bg-gray-200 rounded-sm'>
             <div className='flex w-full justify-between pl-5 pr-5'>
                 <h2>Boutique</h2>
                 <h2>Nombre de résultat</h2>
             </div>
             <div className='flex-col w-full space-y-10'>
-                <div className='w-full h-10 bg-gray-100 rounded-sm'></div>
+                <div className='w-full h-10 bg-blue-300 rounded-sm'>
+
+                </div>
                 <div className='flex flex-wrap gap-5 justify-center'>
                     <Item/>
                     <Item/>

@@ -9,17 +9,13 @@ import Categories from "../Components/sideBars/Categories/Categories";
 const CategoriesPage = () => {
     return(
         <div>
-            <BackBlur/>
-            <Header/>
-            <Path/>
             <div className="flex p-10 space-x-30">
-                <div className="space-y-5">
+                <div className="space-y-5 bg-gray-200 p-10 h-fit rounded-2xl sticky top-0">
                     <Filter/>
                     <Categories/>
                 </div>
                 <List/>
-            </div>
-            <Footer/>                  
+            </div>             
         </div>
     )
 }
