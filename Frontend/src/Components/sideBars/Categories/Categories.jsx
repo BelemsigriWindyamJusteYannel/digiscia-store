@@ -8,7 +8,7 @@ const Categories = () =>{
             <div className='rounded-xl py-2 flex justify-center bg-blue-400'>
                 <h2 className='font-bold'>Categories</h2>
             </div>
-            <ul>
+            <ul className='flex flex-col space-y-2 sm:space-1'>
                 {
                     exemples.map((categorie, index)=>(
                         <Link to="/CategoriesPage" key={index} >

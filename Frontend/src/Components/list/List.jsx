@@ -3,8 +3,8 @@ import Item from '../item/Item';
 
 const List = () => {
     return(
-        <div className='w-200 p-10 space-y-5 bg-gray-200 rounded-sm'>
-            <div className='flex w-full justify-between pl-5 pr-5'>
+        <div className='w-full p-10 space-y-5 bg-gray-200 rounded-sm'>
+            <div className='flex w-full justify-between sm:pl-5 sm:pr-5'>
                 <h2>Boutique</h2>
                 <h2>Nombre de résultat</h2>
             </div>
@@ -26,7 +26,7 @@ const List = () => {
                     <Item/>
                 </div>
             </div>
-            <div className='flex justify-between'>
+            <div className='flex flex-col space-y-1 items-end sm:flex-row sm:justify-between'>
                 <p>Affichage de i à Total</p>
                 <div className='flex gap-3 justify-center items-center'>
                     <div className='w-7 h-7 bg-gray-200 rounded-full text-gray-500 flex justify-center items-center'>

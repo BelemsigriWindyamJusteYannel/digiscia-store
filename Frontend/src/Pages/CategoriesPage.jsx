@@ -9,8 +9,8 @@ import Categories from "../Components/sideBars/Categories/Categories";
 const CategoriesPage = () => {
     return(
         <div>
-            <div className="flex p-10 space-x-30">
-                <div className="space-y-5 bg-gray-200 p-10 h-fit rounded-2xl sticky top-0">
+            <div className="flex flex-col items-center p-10 gap-10 sm:flex-row sm:items-start">
+                <div className=" bg-gray-200 p-10 h-fit rounded-2xl sm:sticky top-0">
                     <Filter/>
                     <Categories/>
                 </div>

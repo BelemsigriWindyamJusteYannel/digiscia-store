@@ -75,7 +75,12 @@ WSGI_APPLICATION = 'Manager.wsgi.application'
 
 DATABASES = {
     'default': {
-        
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'ecom',
+        'USER': 'postgres',
+        'PASSWORD': 'yannel',
+        'HOST': 'localhost',
+        'PORT': '5432'
     }
 }
 

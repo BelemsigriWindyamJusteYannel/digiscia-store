@@ -9,9 +9,9 @@ import Categories from "../Components/sideBars/Categories/Categories";
 
 const Description = () => {
     return (
-        <div className="flex-col justify-between h-max">
-            <div className="flex p-10">
-                <div className="space-y-5 bg-gray-200 p-10 h-screen rounded-2xl sticky top-0">
+        <div>
+            <div className="flex flex-col items-center gap-10 p-10 xl:flex-row xl:items-start xl:justify-between">
+                <div className="space-y-5 bg-gray-200 p-10 h-screen rounded-2xl xl:sticky top-0">
                     <Filter/>
                     <Categories/>
                 </div>
