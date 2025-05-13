@@ -32,7 +32,7 @@ const products = [
         name: "Clé USB TOSHIBA",
         description: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Esse, alias! Distinctio dolorum cumque quasi suscipit aut fuga sequi porro recusandae eum impedit atque magnam, illo omnis ea, fugiat maxime. Fuga!",
         price: 1000,
-        available: true,
+        available: false,
         stock: 8,
         category: "Clé USB"
     },

@@ -23,7 +23,7 @@ const Filter = () => {
     return(
         <>
             <div className='w-60 rounded-sm p-5 space-y-5  bg-amber-100'>
-                <div className='rounded-xl py-2 flex justify-center bg-amber-700 text-[#ffffffa1]'>
+                <div className='rounded-xl py-2 flex justify-center bg-amber-700 text-[#fffffff1]'>
                     <h2 className='font-bold'>Filter</h2>
                 </div>
                 <form className='flex flex-col items-start gap-10'>

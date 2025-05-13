@@ -6,9 +6,7 @@ import Card from "../Components/panier/Card";
 
 const Panier  = () => {
     return(
-        <div className=" flex-col h-full">
-            <Card/>
-        </div>
+        <Card/>
     )
 }
 

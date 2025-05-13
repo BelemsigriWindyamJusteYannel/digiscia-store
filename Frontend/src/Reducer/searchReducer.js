@@ -10,7 +10,6 @@ export const searchReducer = (state,action) =>{
             const filteredValues = action.payload.data.filter((item)=>{
                 return item.price == action.payload.target
             })
-            console.log(filteredValues);
             return filteredValues;
         default :
             return state;

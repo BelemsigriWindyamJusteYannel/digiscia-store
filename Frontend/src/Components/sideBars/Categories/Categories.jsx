@@ -5,7 +5,7 @@ import { exemples } from './exmples';
 const Categories = () =>{
     return(
         <div className='w-60 rounded-sm p-5 space-y-5 bg-amber-100'>
-            <div className='rounded-xl py-2 flex justify-center text-[#ffffffa1] bg-amber-700'>
+            <div className='rounded-xl py-2 flex justify-center text-[#fffffff1] bg-amber-700'>
                 <h2 className='font-bold'>Categories</h2>
             </div>
             <ul className='flex flex-col space-y-2 sm:space-1'>

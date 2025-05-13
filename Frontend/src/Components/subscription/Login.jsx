@@ -1,12 +1,15 @@
+import { useEffect, useState } from "react";
 
 
 const Login = () => {
+    const [ isConnected,setIsConnected ] = useState(true);
+
     return(
         <div className="flex flex-col items-center w-full gap-10">
         {
-            true? (
-                <div className="flex flex-col items-center w-80 p-4 bg-white border border-gray-200 rounded-lg shadow-sm md:w-100 ">
-                    <form className="space-y-6" action="#">
+            isConnected ? (
+                <div className="flex flex-col items-center w-80 p-4 bg-white border border-gray-200 rounded-lg shadow-sm md:w-100 mb-20">
+                    <form className="space-y-6 w-60" action="#">
                         <h5 className="text-xl font-medium text-gray-900 ">Sign in to our platform</h5>
                         <div>
                             <label for="email" class="block mb-2 text-sm font-medium text-gray-900 ">Your email</label>
@@ -26,13 +29,22 @@ const Login = () => {
                             <a href="#" class="ms-auto text-sm text-blue-700 hover:underline dark:text-blue-500">Lost Password?</a>
                         </div>
                         <button type="submit" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Login to your account</button>
-                        <div className="text-sm font-medium text-gray-500 dark:text-gray-300">
-                            Not registered? <a href="#" class="text-blue-700 hover:underline dark:text-blue-500">Create account</a>
+                        <div className="text-sm font-medium text-gray-500 dark:text-gray-300 flex justify-between">
+                            Not registered? 
+                            <p 
+                                onClick={()=>{
+                                    setIsConnected(()=>{
+                                        return false;
+                                    })
+                                }} 
+                                class="text-blue-700 hover:underline dark:text-blue-500 cursor-pointer">
+                                Create account
+                            </p>
                         </div>
                     </form>
                 </div>
             ) : (
-                <form className="flex flex-col items-center gap-5 rounded-2xl bg-gray-300 py-5 w-80 md:w-2/3 xl:flex-row ">
+                <form className="flex flex-col items-center gap-5 rounded-2xl bg-gray-300 py-5 w-80 md:w-2/3 xl:flex-row mb-20">
                 <div className="grid gap-6 justify-center  md:grid-cols-2 md:w-2/3 xl:pl-10 xl:border-r xl:border-gray-400">
                     <div>
                         <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 ">First name</label>

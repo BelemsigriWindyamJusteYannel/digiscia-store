@@ -2,8 +2,11 @@
 export const cartReducer = (state,action) => {
     switch ( action.type ){
         case 'product/add' :
-            console.log(action.payload)
-            return [...state,action.payload];
+            const inserTry = state.find((item)=>item.id === action.payload.id);
+            if(!inserTry){
+                alert("Produit ajouté au panier");
+                return [...state,action.payload];
+            }
         case 'product/remove' :
             return state.filter(item => item.id !== action.payload)
         case 'product/updateCount' :

@@ -1,13 +1,16 @@
 import './Footer.css'
 import { Copyright,Facebook,Instagram   } from 'lucide-react';
+import { Link } from 'react-router-dom';
 const Footer = () => {
-    return <div className='relative bottom-0 left-0 right-0 pt-10 bg-amber-600'>
+    return <div className='pt-10 bg-amber-600'>
         <section className='flex flex-col items-center space-y-5 pb-5 sm:flex-row sm:px-10 sm:justify-around'>
-            <div className='flex-col space-y-2 '>
-                <h2 className='font-extrabold text-2xl'>DigiScia</h2>
-                <div className='flex justify-center'>
-                    <img className='w-20 h-20' src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Electron_Software_Framework_Logo.svg/langfr-800px-Electron_Software_Framework_Logo.svg.png" alt="ElectroInfos" />
-                </div>
+            <div className='flex-col'>
+                <Link to='/'>
+                    <h2 className='font-extrabold text-2xl'>DigiScia</h2>
+                    <div className='flex justify-center'>
+                        <img className='w-20 h-20' src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Electron_Software_Framework_Logo.svg/langfr-800px-Electron_Software_Framework_Logo.svg.png" alt="ElectroInfos" />
+                    </div>
+                </Link>
                 <div className='flex justify-center'>
                     <Facebook />
                     <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="25" height="25" viewBox="0 0 50 50">
@@ -25,11 +28,16 @@ const Footer = () => {
             </div>
             <div className='font-bold text-center space-y-1 sm:text-start'>
                 <div className='font-extrabold text-xl'>
-                    <h2>Mon Compte</h2>
+                    <Link to='/Compte'>
+                        <p>Mon compte</p>
+                    </Link>
                 </div>
-                <p>Mon compte</p>
-                <p>Mes commandes</p>
-                <p>Details du compte</p>
+                <Link to='/Compte'>
+                    <p>Details du compte</p>
+                </Link>
+                <Link to='/Commandes'>
+                    <p>Mes commandes</p>
+                </Link>
             </div>
         </section>
         <div className='flex p-1 pl-10 bg-gray-100 text-gray-600'>

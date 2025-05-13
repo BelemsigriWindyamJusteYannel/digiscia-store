@@ -115,10 +115,10 @@ const Card = () => {
                         </div>
                     </div>
                 ):(
-                    <div className="w-full text-center bg-amber-500 p-20 sm:w-200">
-                        <h2> Panier vide</h2>
+                    <div className="w-full text-center bg-amber-500 p-20 sm:w-200 my-10 rounded-sm">
+                        <h2 className="font-bold"> Panier vide</h2>
                         <div className="bg-amber-400">
-                            <p>Veillez acheter un produit</p>
+                            <p className="font-bold">Veillez acheter un produit</p>
                         </div>
                     </div>
                 )
