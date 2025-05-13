@@ -11,7 +11,7 @@ const Description = () => {
     return (
         <div>
             <div className="flex flex-col items-center gap-10 p-10 xl:flex-row xl:items-start xl:justify-between">
-                <div className="space-y-5 bg-gray-200 p-10 h-screen rounded-2xl xl:sticky top-0">
+                <div className="space-y-5 bg-amber-100 p-10 h-screen rounded-2xl xl:sticky top-0">
                     <Filter/>
                     <Categories/>
                 </div>

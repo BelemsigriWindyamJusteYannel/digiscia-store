@@ -1,8 +1,22 @@
 export const exemples = [
-    'Arduino',
-    'Ordinateur',
-    'Controllers',
-    'Disque Dures',
-    'Raspberry Pi',
-    'Clé USB'
+    {
+        id:1,
+        name:'Arduino',
+    },
+    {
+        id:2,
+        name:'Ordinateur',
+    },
+    {
+        id:1,
+        name:'Controllers',
+    },
+    {
+        id:1,
+        name:'Disque Dures',
+    },
+    {
+        id:1,
+        name:'Clé USB',
+    }
 ]

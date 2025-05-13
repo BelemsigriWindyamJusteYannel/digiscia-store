@@ -1,28 +1,66 @@
-
 import Categories from '../Categories/Categories';
 import './Filter.css';
-
+import { useContext, useEffect, useState } from 'react';
+import { SearchContext } from '../../../Reducer/SearchContext';
+import data from '../../../pseudoData/data';
 const Filter = () => {
+    const [ filterPrice, setFilterPrice ] = useState(0);
+    const { searchDispatch } = useContext(SearchContext);
+
+
+    const handleFilter = (e) => {
+        
+        searchDispatch({
+            type: 'search/filter',
+            payload: {
+                target: e.target.value,
+                data: data
+            }
+        })
+    }
+
+
     return(
         <>
-            <div className='border border-gray-200 w-60 rounded-sm p-5 space-y-5  '>
-                <div className='rounded-xl py-2 flex justify-center bg-blue-400'>
+            <div className='w-60 rounded-sm p-5 space-y-5  bg-amber-100'>
+                <div className='rounded-xl py-2 flex justify-center bg-amber-700 text-[#ffffffa1]'>
                     <h2 className='font-bold'>Filter</h2>
                 </div>
-                <div className='space-y-5'>
-                    <h3 className='border-b border-gray-400'>Filtrer par prix</h3>
-                    <div className='flex justify-between space-x-1'>
-                        <p>50DHS</p>
-                        <p>20000DHS</p>
-                    </div>
-                    <div className='flex items-center gap-0.5'>
-                        <div className='w-5 h-2 rounded-full bg-gray-400'></div>
-                        <div className='border border-gray-500 w-full h-0'>
+                <form className='flex flex-col items-start gap-10'>
+                    <div className="relative w-full">
+                        <label for="price-range-input" className="sr-only">Default range</label>
+                        <input 
+                            onChange={(e)=>setFilterPrice((prev)=>{
+                                return e.target.value;
+                            })} 
+                            type="number" 
+                            value={filterPrice} 
+                            className='w-20 bg-[#ffffff] rounded-3xl border border-gray-300 py-1 px-3 text-start text-gray-400'
+                        />
+                        <input 
+                            onChange={(e)=>setFilterPrice((prev)=>{
+                                return e.target.value;
+                            })} 
+                            id="price-range-input" 
+                            type="range" 
+                            min="100" 
+                            max="10000" 
+                            className="w-full h-2 rounded-lg appearance-none cursor-pointer bg-gray-700" 
+                            value={filterPrice}
+                        />
+                        <div>
+                        <span className="text-[15px] text-gray-500 absolute start-0 -bottom-6">Min (100)</span>
+                        <span className="text-[15px] text-gray-500 absolute end-0 -bottom-6">Max (10000)</span>
                         </div>
-                        <div className='w-5 h-2 rounded-full bg-red-600'></div>
                     </div>
-                    <button type="button" class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-full text-sm px-5 py-2.5 me-2 mb-2 ">Light</button>
-                </div>
+                    <button 
+                        onClick={handleFilter}
+                        type="button" 
+                        className="text-gray-900 bg-gray-400 hover:bg-gray-500 font-medium rounded-full text-sm px-5 py-2.5 me-2 mb-2"
+                    >
+                        Filtrer
+                    </button>
+                </form>
             </div>
         </>
         

@@ -9,22 +9,28 @@ import Header from './Components/header/Header';
 import Path from './Components/path/Path';
 import Footer from './Components/footer/Footer';
 import Connection from './Pages/Connection';
+import { CartProvider } from './Reducer/cartContext';
+import { SearchContextProvider } from './Reducer/SearchContext';
 
 const App = () => {
   return(
-    <BrowserRouter>
-      <BackBlur/>
-      <Header/>
-      <Path/>
-      <Routes>
-          <Route path='/' element={<Home/>}></Route>
-          <Route path='/Description' element={<Description/>}></Route>
-          <Route path='/Panier' element={<Panier/>}></Route>
-          <Route path='/CategoriesPage' element={<CategoriesPage/>}></Route>
-          <Route path='/Connection' element={<Connection/>}></Route>
-      </Routes>
-      <Footer/>
-    </BrowserRouter>
+    <SearchContextProvider>
+      <CartProvider>
+        <BrowserRouter>
+          <BackBlur/>
+          <Header/>
+          <Path/>
+          <Routes>
+              <Route path='/' element={<Home/>}></Route>
+              <Route path='/Description/:name' element={<Description/>}></Route>
+              <Route path='/Panier' element={<Panier/>}></Route>
+              <Route path='/CategoriesPage/:name' element={<CategoriesPage/>}></Route>
+              <Route path='/Connection' element={<Connection/>}></Route>
+          </Routes>
+          <Footer/>
+        </BrowserRouter>
+      </CartProvider>
+    </SearchContextProvider>
   )
 }
 

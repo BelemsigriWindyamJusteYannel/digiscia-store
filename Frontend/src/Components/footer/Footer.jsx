@@ -1,7 +1,7 @@
 import './Footer.css'
 import { Copyright,Facebook,Instagram   } from 'lucide-react';
 const Footer = () => {
-    return <div className='relative bottom-0 left-0 right-0 pt-10 bg-blue-200'>
+    return <div className='relative bottom-0 left-0 right-0 pt-10 bg-amber-600'>
         <section className='flex flex-col items-center space-y-5 pb-5 sm:flex-row sm:px-10 sm:justify-around'>
             <div className='flex-col space-y-2 '>
                 <h2 className='font-extrabold text-2xl'>DigiScia</h2>
