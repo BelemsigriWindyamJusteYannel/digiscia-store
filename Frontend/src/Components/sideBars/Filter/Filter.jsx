@@ -28,7 +28,7 @@ const Filter = () => {
                 </div>
                 <form className='flex flex-col items-start gap-10'>
                     <div className="relative w-full">
-                        <label for="price-range-input" className="sr-only">Default range</label>
+                        <label htmlFor="price-range-input" className="sr-only">Default range</label>
                         <input 
                             onChange={(e)=>setFilterPrice((prev)=>{
                                 return e.target.value;

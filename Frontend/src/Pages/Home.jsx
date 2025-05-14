@@ -8,7 +8,15 @@ import Carousel from "../Components/carousel/Carousel";
 
 const Home = () => {
     const [ time, setTime ] = useState(10)
-
+    useEffect(()=>{
+        if(time > 0){
+            setInterval(()=>{
+                setTime((prev)=>{
+                    return prev - 1;
+                })
+            },1000)
+        }
+    },[])
 
     return(
         <div>
@@ -36,29 +44,35 @@ const Home = () => {
                     }
                 </div>
             </div>
-            <div className="p-10 space-y-5 overflow-hidden bg-amber-400 flex flex-col items-center">
-                <div className="flex w-full justify-around">
-                    <p className="text-3xl font-bold">- Flash Sell</p>
-                    <div className="w-1/2">
-                        <h3 className="font-bold">Temps restant: {time >0 ? time : <p className="font-bold text-red-400">terminé</p>} </h3>
+            {
+                time > 0 ? (
+                    <div className="p-10 space-y-5 overflow-hidden bg-amber-400 flex flex-col items-center">
+                        <div className="flex w-full justify-around">
+                            <p className="text-3xl font-bold">- Flash Sell</p>
+                            <div className="w-1/2">
+                                <h3 className="font-bold">Temps restant: {time} </h3>
+                            </div>
+                        </div>
+                        <div className="flex overflow-x-scroll gap-5 w-300 p-5">
+                            {
+                                products.map((product,index)=>(
+                                    <Item key={index}
+                                        id={product.id}
+                                        name={product.name}
+                                        description={product.description}
+                                        price= {product.price}
+                                        available= {product.available}
+                                        stock= {product.stock}
+                                        category= {product.category}
+                                    />
+                                ))
+                            }
+                        </div>
                     </div>
-                </div>
-                <div className="flex overflow-x-scroll gap-5 w-300 p-5">
-                    {
-                        products.map((product,index)=>(
-                            <Item key={index}
-                                id={product.id}
-                                name={product.name}
-                                description={product.description}
-                                price= {product.price}
-                                available= {product.available}
-                                stock= {product.stock}
-                                category= {product.category}
-                            />
-                        ))
-                    }
-                </div>
-            </div>
+                ) : (
+                    <><p className="font-bold text-red-400">Vente Flash terminée</p></>
+                )
+            }
         </div>
     )
 }

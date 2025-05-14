@@ -11,9 +11,6 @@ const MonCompte = () => {
                     <Link to='/Commandes'>
                         <li className="font-bold">Vos Commandes</li>
                     </Link>
-                    <Link to='/BoiteReception'>
-                        <li className="font-bold">Boite de réception</li>
-                    </Link>
                 </ul>
             </div>
             <div className="space-y-10 md:flex gap-2 justify-around w-full">

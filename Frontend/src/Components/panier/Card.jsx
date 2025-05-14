@@ -40,10 +40,10 @@ const Card = () => {
                     <div className="md:w-full">
                         <div className="flex flex-col items-center justify-center gap-5">
                             <h2 className="font-extrabold text-2xl">Panier</h2>
-                            <div className="w-full bg-orange-300  p-5 text-center rounded-3xl mb-20 sm:w-2/3">
-                                <div className="border-b border-gray-400 flex justify-between">
+                            <div className="w-full bg-amber-200  p-5 text-center rounded-3xl mb-20 sm:w-2/3">
+                                <div className="border-b border-amber-300 flex justify-between font-bold py-2">
                                     <p>Produit</p>
-                                    <div className="flex w-2/3 justify-around">
+                                    <div className="flex w-2/3 justify-around ">
                                         <p>Prix</p>
                                         <p>Quantité</p>
                                         <p>Sous-total</p>
@@ -51,9 +51,11 @@ const Card = () => {
                                 </div>
                                 {
                                     cart.map((item,index) =>(
-                                        <div key={index} className="flex justify-between py-4 mb-10 border-b border-gray-400 rounded-2xl">
-                                            <div className="flex items-center ">
-                                                <X onClick={() => dispatch({type:"product/remove", payload: item.id})}/>
+                                        <div key={index} className="flex justify-between py-4 mb-10 bg-amber-100 shadow-2xs mt-2  rounded-2xl">
+                                            <div className="flex items-center px-2 gap-2">
+                                                <div className="bg-red-400 p-4 rounded-2xl font-extrabold text-red-600 hover:bg-red-500">
+                                                    <X onClick={() => dispatch({type:"product/remove", payload: item.id})}/>
+                                                </div>
                                                 <div className="flex flex-col">
                                                     <img className="w-10" src={image} alt="" />
                                                     <p>{item.cartItem.name}</p>
