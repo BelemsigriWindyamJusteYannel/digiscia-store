@@ -2,6 +2,7 @@ import { X } from "lucide-react";
 import image from "./Laptop.jpeg"
 import { useContext, useReducer, useState } from "react";
 import { cartContext } from "../../Reducer/cartContext";
+import { Link } from "react-router-dom";
 const Card = () => {
     const { cart,dispatch } = useContext(cartContext);
     const [ totalPrice, setTotalPrice ] = useState(0)
@@ -111,9 +112,11 @@ const Card = () => {
                                     <p>{totalPrice} DHS</p>
                                 </div>
                             </div>
-                            <button className=" bg-amber-600 rounded-2xl py-2 px-5 ">
-                                Valider la commande
-                            </button>
+                            <Link to={`/Checkout/${totalPrice}`} >
+                                <button className=" bg-amber-600 rounded-2xl py-2 px-5 ">
+                                    Valider la commande
+                                </button>
+                            </Link>
                         </div>
                     </div>
                 ):(

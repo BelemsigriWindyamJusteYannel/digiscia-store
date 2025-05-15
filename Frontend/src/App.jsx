@@ -11,6 +11,7 @@ import { CartProvider } from './Reducer/cartContext';
 import { SearchContextProvider } from './Reducer/SearchContext';
 import MonCompte from './Pages/MonCompte';
 import Commande from './Pages/Commande';
+import CheckOut from './Pages/CheckOut';
 
 const App = () => {
   return(
@@ -27,6 +28,7 @@ const App = () => {
                 <Route path='/Connection' element={<Connection/>}></Route>
                 <Route path='/Compte' element={<MonCompte/>}></Route>
                 <Route path='/Commandes' element={<Commande/>}></Route>
+                <Route path='/Checkout/:totalPrice' element={<CheckOut/>}></Route>
             </Routes>
             <Footer/>
           </BrowserRouter>
