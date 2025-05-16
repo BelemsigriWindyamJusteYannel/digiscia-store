@@ -2,11 +2,11 @@ import './Details.css'
 import image from './Laptop.jpeg'
 import Item from '../item/Item'
 import { ChevronRight,ChevronLeft } from 'lucide-react'
-import { SearchContext } from '../../Reducer/SearchContext'
+import { SearchContext } from '../../Reducers/search/SearchContext'
 import { useContext, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import data from '../../pseudoData/data'
-import { cartContext } from '../../Reducer/cartContext'
+import { cartContext } from '../../Reducers/cart/cartContext'
 const Details = () => {
     const { searchResult, searchDispatch } = useContext(SearchContext)
     const { name } = useParams();

@@ -1,7 +1,7 @@
 import Categories from '../Categories/Categories';
 import './Filter.css';
 import { useContext, useEffect, useState } from 'react';
-import { SearchContext } from '../../../Reducer/SearchContext';
+import { SearchContext } from '../../../Reducers/search/SearchContext';
 import data from '../../../pseudoData/data';
 const Filter = () => {
     const [ filterPrice, setFilterPrice ] = useState(0);

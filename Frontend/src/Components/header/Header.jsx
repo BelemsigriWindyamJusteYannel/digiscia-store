@@ -2,12 +2,12 @@ import { Menu,Search,UserRound,ShoppingCart } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import './Header.css'
 import { useContext, useState, useEffect } from 'react';
-import { SearchContext } from '../../Reducer/SearchContext';
+import { SearchContext } from '../../Reducers/search/SearchContext';
 import data from '../../pseudoData/data'
 import { useNavigate } from 'react-router-dom';
 import Hamburger from 'hamburger-react'
 import { exemples } from '../sideBars/Categories/exmples';
-import { cartContext } from '../../Reducer/cartContext';
+import { cartContext } from '../../Reducers/cart/cartContext';
 
 const Header = () => {
     const [ searched, setSearched ] = useState('')

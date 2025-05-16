@@ -1,12 +1,8 @@
-import Header from "../Components/header/Header";
-import Path from "../Components/path/Path";
-import BackBlur from "../Components/background/BackBlur";
-import Footer from "../Components/footer/Footer";
-import Card from "../Components/panier/Card";
+import Cart from "../Components/cart/Cart";
 
 const Panier  = () => {
     return(
-        <Card/>
+        <Cart/>
     )
 }
 

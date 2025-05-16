@@ -1,0 +1,9 @@
+# === Fichiers Python ===
+*.pyc
+__pycache__/
+
+# === Environnement virtuel ===
+.env
+*.env
+venv/
+.projectEnv/

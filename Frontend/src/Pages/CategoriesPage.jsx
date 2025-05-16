@@ -1,7 +1,3 @@
-import Header from "../Components/header/Header";
-import Path from "../Components/path/Path";
-import BackBlur from "../Components/background/BackBlur";
-import Footer from "../Components/footer/Footer";
 import List from "../Components/list/List";
 import Filter from "../Components/sideBars/Filter/Filter";
 import Categories from "../Components/sideBars/Categories/Categories";

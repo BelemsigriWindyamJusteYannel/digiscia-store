@@ -1,6 +1,6 @@
 import './List.css'
 import Item from '../item/Item';
-import { SearchContext } from '../../Reducer/SearchContext';
+import { SearchContext } from '../../Reducers/search/SearchContext';
 import { useContext, useEffect } from 'react';
 import data from '../../pseudoData/data'
 

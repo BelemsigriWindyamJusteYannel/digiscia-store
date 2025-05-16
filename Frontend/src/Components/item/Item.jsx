@@ -3,9 +3,9 @@ import './Item.css';
 import image from './Laptop.jpeg'
 import { Plus } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { cartContext } from '../../Reducer/cartContext';
+import { cartContext } from '../../Reducers/cart/cartContext';
 import { useContext } from 'react';
-import { CartProvider } from '../../Reducer/cartContext';
+import { CartProvider } from '../../Reducers/cart/cartContext';
 
 const Item = ({id,name,description,price,available,stock,category}) => {
     const { dispatch } = useContext(cartContext);

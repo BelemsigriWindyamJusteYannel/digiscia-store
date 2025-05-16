@@ -1,9 +1,9 @@
 import { X } from "lucide-react";
 import image from "./Laptop.jpeg"
 import { useContext, useReducer, useState } from "react";
-import { cartContext } from "../../Reducer/cartContext";
+import { cartContext } from "../../Reducers/cart/cartContext";
 import { Link } from "react-router-dom";
-const Card = () => {
+const Cart = () => {
     const { cart,dispatch } = useContext(cartContext);
     const [ totalPrice, setTotalPrice ] = useState(0)
     //const [ quantity, setQuantity ] = useState(1)
@@ -132,4 +132,4 @@ const Card = () => {
     )
 }
 
-export default Card;
+export default Cart;
