@@ -5,20 +5,21 @@ import { ChevronRight,ChevronLeft } from 'lucide-react'
 import { SearchContext } from '../../Reducers/search/SearchContext'
 import { useContext, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
-import data from '../../pseudoData/data'
+//import data from '../../pseudoData/data'
 import { cartContext } from '../../Reducers/cart/cartContext'
+import { products, categories } from '../../test_API/test'
 const Details = () => {
     const { searchResult, searchDispatch } = useContext(SearchContext)
     const { name } = useParams();
     const { dispatch } = useContext(cartContext);
-    const item = data.find((item)=>item.name == name)
+    const item = products.find((item)=>item.name == name)
     useEffect(()=>{
 
         searchDispatch({
             type: "search/global",
             payload: {
                 target: name,
-                data: data
+                data: products
             }
         })
     },[])
@@ -30,10 +31,10 @@ const Details = () => {
                 id: item.id,
                 cartItem: {
                     name: item.name,
-                    price: item.price
+                    price: item.current_price
                 },
                 count: 1,
-                preprice: item.price
+                preprice: item.current_price
             }
         })
     }
@@ -45,11 +46,11 @@ const Details = () => {
                     <h1 className='font-bold text-2xl'>{item.name}</h1>
                     <div className='border-b border-gray-300 font-bold flex gap-2'>
                         <p>Availability :</p>
-                        {item.available ? (<p className='text-green-600'>Available</p>):(<p className='text-red-500'>Unavailable</p>)}
+                        {item.stock > 0 ? (<p className='text-green-600'>Available</p>):(<p className='text-red-500'>Unavailable</p>)}
                     </div>
-                    <p>{item.price} DHS</p>
+                    <p>{item.current_price} DHS</p>
                     {
-                        item.available ? (
+                        item.stock > 0 ? (
                             <button 
                                 onClick={handleAddCart}
                                 className='bg-amber-500 hover:bg-amber-600 p-2 pl-10 pr-10 rounded-3xl'
@@ -80,8 +81,8 @@ const Details = () => {
                                 id={item.id} 
                                 name={item.name} 
                                 description={item.description} 
-                                price={item.price} 
-                                available={item.available} 
+                                price={item.current_price} 
+                                available={item.stock > 0}
                                 stock={item.stock} 
                                 category={item.category}/>
                         )

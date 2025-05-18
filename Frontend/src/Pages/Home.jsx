@@ -1,10 +1,10 @@
 import Categories from "../Components/sideBars/Categories/Categories";
 import Item from "../Components/item/Item";
-import { ChevronRight,ChevronLeft } from 'lucide-react'
 import image from "./Laptop.jpeg"
 import { useEffect, useState } from "react";
-import products from '../pseudoData/data'
+//import products from '../pseudoData/data'
 import Carousel from "../Components/carousel/Carousel";
+import { products } from "../test_API/test";
 
 const Home = () => {
     const [ time, setTime ] = useState(10)

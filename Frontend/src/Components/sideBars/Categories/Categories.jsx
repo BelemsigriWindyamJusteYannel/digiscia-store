@@ -1,6 +1,8 @@
 import './Categories.css';
 import { Link } from 'react-router-dom';
 import { exemples } from './exmples';
+import { categories } from '../../../test_API/test';
+
 
 const Categories = () =>{
     return(
@@ -10,7 +12,7 @@ const Categories = () =>{
             </div>
             <ul className='flex flex-col space-y-2 sm:space-1'>
                 {
-                    exemples.map((categorie, index)=>(
+                    categories.map((categorie, index)=>(
                         <Link to={`/CategoriesPage/${categorie.name}`} key={index}>
                             <li className='border-b border-gray-500 hover:text-[#837b7bd3] hover:border-[#fff] hover:scale-100'>{categorie.name}</li>
                         </Link>

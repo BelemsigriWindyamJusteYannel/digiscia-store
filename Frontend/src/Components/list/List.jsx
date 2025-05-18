@@ -2,7 +2,9 @@ import './List.css'
 import Item from '../item/Item';
 import { SearchContext } from '../../Reducers/search/SearchContext';
 import { useContext, useEffect } from 'react';
-import data from '../../pseudoData/data'
+import { products } from '../../test_API/test';
+//import data from '../../pseudoData/data'
+
 
 const List = ({ categoryName }) => {
     const { searchResult, searchDispatch } = useContext(SearchContext);
@@ -11,7 +13,7 @@ const List = ({ categoryName }) => {
             type: "search/global",
             payload: {
                 target: categoryName,
-                data: data
+                data: products
             }
         })
 
