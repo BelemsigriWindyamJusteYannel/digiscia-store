@@ -1,6 +1,6 @@
 import Categories from "../Components/sideBars/Categories/Categories";
 import Item from "../Components/item/Item";
-import image from "./Laptop.jpeg"
+//import image from "./Laptop.jpeg"
 import { useEffect, useState } from "react";
 //import products from '../pseudoData/data'
 import Carousel from "../Components/carousel/Carousel";
@@ -35,10 +35,10 @@ const Home = () => {
                                 id={product.id}
                                 name={product.name}
                                 description={product.description}
-                                price= {product.price}
-                                available= {product.available}
+                                price= {product.current_price}
                                 stock= {product.stock}
                                 category= {product.category}
+                                image={product.image}
                             />
                         ))
                     }
@@ -60,10 +60,10 @@ const Home = () => {
                                         id={product.id}
                                         name={product.name}
                                         description={product.description}
-                                        price= {product.price}
-                                        available= {product.available}
+                                        price= {product.current_price}
                                         stock= {product.stock}
                                         category= {product.category}
+                                        image={product.image}
                                     />
                                 ))
                             }

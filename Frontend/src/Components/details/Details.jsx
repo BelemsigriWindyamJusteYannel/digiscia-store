@@ -41,7 +41,7 @@ const Details = () => {
     return(
         <div className='flex flex-col gap-10 w-full xl:w-2/3 bg-amber-100 rounded-2xl p-10'>
             <div className='flex flex-col gap-5 w-full justify-around sm:flex-row'>
-                <img className='w-60 h-50 rounded-sm' src={image} alt="Laptop" />
+                <img className='w-60 h-50 rounded-sm' src={item.image} alt={item.name} />
                 <div className='space-y-5' >
                     <h1 className='font-bold text-2xl'>{item.name}</h1>
                     <div className='border-b border-gray-300 font-bold flex gap-2'>
@@ -84,7 +84,9 @@ const Details = () => {
                                 price={item.current_price} 
                                 available={item.stock > 0}
                                 stock={item.stock} 
-                                category={item.category}/>
+                                category={item.category}
+                                image={item.image}  
+                            />
                         )
                     }
                 </div>

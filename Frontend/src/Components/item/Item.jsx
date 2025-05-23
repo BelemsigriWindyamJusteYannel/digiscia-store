@@ -1,15 +1,14 @@
 import './Item.css';
 //import image from './laptop-pencils-arrangement.jpg'
-import image from './Laptop.jpeg'
+//import image from './Laptop.jpeg'
 import { Plus } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { cartContext } from '../../Reducers/cart/cartContext';
 import { useContext } from 'react';
 import { CartProvider } from '../../Reducers/cart/cartContext';
 
-const Item = ({id,name,description,price,available,stock,category}) => {
+const Item = ({id,name,description,price,available,stock,category,image}) => {
     const { dispatch } = useContext(cartContext);
-    
     return(
         <div className="w-50 max-w-sm bg-[#ffffffd2] border border-gray-200 rounded-lg shadow-2xl hover:scale-105 duration-300 ">
             <a href="#">

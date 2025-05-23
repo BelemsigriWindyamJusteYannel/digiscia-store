@@ -17,7 +17,7 @@ const List = ({ categoryName }) => {
             }
         })
 
-    },[categoryName ])
+    },[ categoryName ])
 
     return(
         <div className='w-full p-10 space-y-5 bg-gray-200 rounded-sm'>
@@ -32,7 +32,16 @@ const List = ({ categoryName }) => {
                 <div className='flex flex-wrap gap-5 justify-center  items-center'>
                     {
                         searchResult.map((item,index)=>
-                            <Item key={index}  id={item.id} name={item.name} description={item.description} price={item.price} available={item.available} stock={item.stock} category={item.category}/>
+                            <Item 
+                                key={index}  
+                                id={item.id} 
+                                name={item.name} 
+                                description={item.description} 
+                                price={item.price} 
+                                image={item.image} 
+                                stock={item.stock} 
+                                category={item.category}
+                            />
                         )
                     }
                 </div>
