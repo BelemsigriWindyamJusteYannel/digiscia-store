@@ -1,18 +1,27 @@
 import axios from 'axios';
 
 
-export const products = await axios.get("http://localhost:8000/api/products").then(data=>{
+export const products = await axios.get("http://localhost:8000/products").then(data=>{
     return data.data;
 })
 
-export const categories = await axios.get("http://localhost:8000/api/categories").then( data=>{
+export const categories = await axios.get("http://localhost:8000/categories").then( data=>{
+    console.log(data.data)
     return data.data;
 })
+
+/*
+export const userName = async (email) => {
+  console.log(email)
+  await axios.get(`http://localhost:8000/api/getusername/${email}/`).then( data=>{
+      return data.data;
+  })
+}
 
 console.log("Categories => ", categories)
 console.log("Products => ", products)
 
-
+*/
 /*
 
 axios.post('http://localhost:8000/api/send-email/', {

@@ -7,3 +7,6 @@ from .models import Client, Order, Product, Category, Payment, OrderProduct, Com
 
 models = [Client, Order, Product, Category, Payment, OrderProduct, Comment]
 admin.site.register(models)
+
+
+

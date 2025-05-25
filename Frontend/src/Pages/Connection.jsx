@@ -1,5 +1,5 @@
 
-import Login from "../Components/subscription/Login";
+import Login from "../auth/Login";
 
 const Connection = () => {
     return(

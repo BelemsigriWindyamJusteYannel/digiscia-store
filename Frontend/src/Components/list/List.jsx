@@ -37,7 +37,7 @@ const List = ({ categoryName }) => {
                                 id={item.id} 
                                 name={item.name} 
                                 description={item.description} 
-                                price={item.price} 
+                                price={item.current_price} 
                                 image={item.image} 
                                 stock={item.stock} 
                                 category={item.category}

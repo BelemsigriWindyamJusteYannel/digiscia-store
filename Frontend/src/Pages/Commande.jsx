@@ -1,7 +1,24 @@
 import { Link } from "react-router-dom";
 import CommandItem from "../Components/commandItem/CommandItem";
 import image from './Laptop.jpeg';
+import axios from "axios";
+import { useState, useEffect } from "react";
+import { getProfile } from "../api/user";
+
 const Commande = () => {
+    const [profile, setProfile] = useState({});
+    useEffect(() => {
+        getProfile().then(data => {
+            setProfile(data);
+        });
+    }, []);
+
+    console.log(profile)
+    const commands = axios.get("http://localhost:8000/orders/")
+    .then(data=>{
+        console.log(data)
+    })
+
     return(
         <div className="flex flex-col items-center md:items-start md:flex-row p-10 gap-10">
             <div className="w-60">

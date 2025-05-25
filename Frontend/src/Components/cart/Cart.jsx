@@ -1,12 +1,21 @@
 import { X } from "lucide-react";
 import image from "./Laptop.jpeg"
-import { useContext, useReducer, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { cartContext } from "../../Reducers/cart/cartContext";
 import { Link } from "react-router-dom";
+import { getProfile } from "../../api/user";
 const Cart = () => {
     const { cart,dispatch } = useContext(cartContext);
     const [ totalPrice, setTotalPrice ] = useState(0)
     //const [ quantity, setQuantity ] = useState(1)
+
+    const [profile, setProfile] = useState({});
+
+    useEffect(() => {
+        getProfile().then(data => {
+        setProfile(data); // ✅ met à jour l'état, donc provoque un re-render
+        });
+    }, []);
     const handleQuantity = (e, id ) =>{
         const value = parseInt(e.target.value, 10);
         dispatch({
@@ -70,7 +79,7 @@ const Cart = () => {
                                                     value={item.count}
                                                     onChange={(e)=> handleQuantity(e,item.id)}
                                                 />
-                                                <p>{item.cartItem.price * item.count} DHS</p>
+                                                <p>{(item.cartItem.price * item.count).toFixed(2)} DHS</p>
                                             </div>
                                         </div>
                                     ))
@@ -104,7 +113,7 @@ const Cart = () => {
                                     </div>
                                     <div className="pb-2 flex justify-between">
                                         <p>Ville:</p>
-                                        <p>Nom Ville</p>
+                                        <p>{profile.city}</p>
                                     </div>
                                 </div>
                                 <div className="pb-2 flex justify-between">

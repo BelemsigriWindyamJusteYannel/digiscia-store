@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'api',
+    'rest_framework_simplejwt',
 ]
 
 MIDDLEWARE = [
@@ -150,10 +151,15 @@ EMAIL_USE_TLS = config('EMAIL_USE_TLS', cast=bool)
 EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 
+# Configuration Django REST Framework avec JWT
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-    )
+        'rest_framework_simplejwt.authentication.JWTAuthentication', # Utilise JWT pour l'authentification
+        'rest_framework.authentication.SessionAuthentication', # Pour l'accès via le navigateur (facultatif)
+    ),
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny', # Par défaut, autorise tout (à ajuster en production)
+    ]
 }
 
 from datetime import timedelta
@@ -162,3 +168,15 @@ SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=30),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
 }
+
+
+import os
+
+# Chemin de base du projet
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+# Dossier de stockage des fichiers uploadés
+MEDIA_URL = '/media/' # URL pour les fichiers médias (images)
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media') # Chemin physique pour stocker les médias
+
+

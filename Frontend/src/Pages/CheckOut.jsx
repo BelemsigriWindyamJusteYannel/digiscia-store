@@ -1,7 +1,10 @@
 import { useParams } from "react-router-dom";
-
+import { useContext } from "react";
+import { cartContext } from "../Reducers/cart/cartContext";
 
 const CheckOut = () => {
+    const { cart } = useContext(cartContext)
+    console.log(cart)
     const { totalPrice } = useParams();
     console.log(totalPrice)
     return(

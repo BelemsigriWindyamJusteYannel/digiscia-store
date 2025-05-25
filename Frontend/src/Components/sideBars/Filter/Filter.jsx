@@ -29,14 +29,28 @@ const Filter = () => {
                 <form className='flex flex-col items-start gap-10'>
                     <div className="relative w-full">
                         <label htmlFor="price-range-input" className="sr-only">Default range</label>
-                        <input 
-                            onChange={(e)=>setFilterPrice((prev)=>{
-                                return e.target.value;
-                            })} 
-                            type="number" 
-                            value={filterPrice} 
-                            className='w-20 bg-[#ffffff] rounded-3xl border border-gray-300 py-1 px-3 text-start text-gray-400'
-                        />
+                        <div className='flex justify-between'>
+                            <div>
+                                <input 
+                                    onChange={(e)=>setFilterPrice((prev)=>{
+                                        return e.target.value;
+                                    })} 
+                                    type="number" 
+                                    value={filterPrice} 
+                                    className='w-20 bg-[#ffffff] rounded-3xl border border-gray-300 py-1 px-3 text-start text-gray-400'
+                                />
+                            </div>
+                            <div>
+                                <input 
+                                    onChange={(e)=>setFilterPrice((prev)=>{
+                                        return e.target.value;
+                                    })} 
+                                    type="number" 
+                                    value={filterPrice} 
+                                    className='w-20 bg-[#ffffff] rounded-3xl border border-gray-300 py-1 px-3 text-start text-gray-400'
+                                />
+                            </div>
+                        </div>
                         <input 
                             onChange={(e)=>setFilterPrice((prev)=>{
                                 return e.target.value;
@@ -49,8 +63,8 @@ const Filter = () => {
                             value={filterPrice}
                         />
                         <div>
-                        <span className="text-[15px] text-gray-500 absolute start-0 -bottom-6">Min (100)</span>
-                        <span className="text-[15px] text-gray-500 absolute end-0 -bottom-6">Max (10000)</span>
+                            <span className="text-[15px] text-gray-500 absolute start-0 -bottom-6">Min (100)</span>
+                            <span className="text-[15px] text-gray-500 absolute end-0 -bottom-6">Max (10000)</span>
                         </div>
                     </div>
                     <button 
