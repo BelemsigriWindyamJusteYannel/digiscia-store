@@ -2,7 +2,8 @@ import axios from 'axios';
 
 
 export const products = await axios.get("http://localhost:8000/products").then(data=>{
-    return data.data;
+  console.log(data.data)  
+  return data.data;
 })
 
 export const categories = await axios.get("http://localhost:8000/categories").then( data=>{

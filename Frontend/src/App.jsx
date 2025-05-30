@@ -13,6 +13,7 @@ import MonCompte from './Pages/MonCompte';
 import Commande from './Pages/Commande';
 import CheckOut from './Pages/CheckOut';
 import { UserProvider } from './context/UserContext';
+import FadeInOnScroll from './Components/fadeInOnScroll/FadeInOnScroll';
 
 const App = () => {
   return(
@@ -32,7 +33,9 @@ const App = () => {
                   <Route path='/Commandes' element={<Commande/>}></Route>
                   <Route path='/Checkout/:totalPrice' element={<CheckOut/>}></Route>
               </Routes>
-              <Footer/>
+              <FadeInOnScroll>
+                <Footer/>
+              </FadeInOnScroll>
             </BrowserRouter>
           </CartProvider>
         </SearchContextProvider>

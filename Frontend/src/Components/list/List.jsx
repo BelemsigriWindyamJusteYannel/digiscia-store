@@ -2,23 +2,23 @@ import './List.css'
 import Item from '../item/Item';
 import { SearchContext } from '../../Reducers/search/SearchContext';
 import { useContext, useEffect } from 'react';
-import { products } from '../../test_API/test';
+//import { products } from '../../test_API/test';
 //import data from '../../pseudoData/data'
-
+import { getCategories } from '../../api/category';
 
 const List = ({ categoryName }) => {
     const { searchResult, searchDispatch } = useContext(SearchContext);
     useEffect(()=>{
-        searchDispatch({
+        if(getCategories.data.find(element=>element.name == categoryName)){
+            searchDispatch({
             type: "search/global",
             payload: {
                 target: categoryName,
-                data: products
             }
         })
-
-    },[ categoryName ])
-
+        }
+    },[categoryName])
+    console.log("searchResult =>",searchResult)
     return(
         <div className='w-full p-10 space-y-5 bg-gray-200 rounded-sm'>
             <div className='flex w-full justify-between sm:pl-5 sm:pr-5'>

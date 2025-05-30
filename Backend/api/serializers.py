@@ -1,91 +1,128 @@
-# --- Partie 3: Création des sérialiseurs (ecommerce/serializers.py) ---
-# ecommerce/serializers.py
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from .models import Client, Category, Product, Comment, Order, Payment, OrderProduct
 
-# Sérialiseur pour l'inscription (crée User et Client)
-class UserRegistrationSerializer(serializers.ModelSerializer):
+# Sign in
+class RegisterUserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, required=True, style={'input_type': 'password'})
     first_name = serializers.CharField(write_only=True, required=True)
     last_name = serializers.CharField(write_only=True, required=True)
     city = serializers.CharField(write_only=True, required=True)
-    code_postale = serializers.CharField(write_only=True, required=True)
+    postal_code = serializers.CharField(write_only=True, required=False)
+    phone_number = serializers.CharField(write_only=True, required=False)
 
     class Meta:
         model = User
-        fields = ('username', 'email', 'password', 'first_name', 'last_name', 'city', 'code_postale')
+        fields = ('username', 'email', 'password', 'first_name', 'last_name', 'city', 'postal_code', 'phone_number')
         extra_kwargs = {'email': {'required': True}}
 
     def create(self, validated_data):
-        # Extrait les données du profil client
+        # Client data extraction
         first_name = validated_data.pop('first_name')
         last_name = validated_data.pop('last_name')
         city = validated_data.pop('city')
-        code_postale = validated_data.pop('code_postale')
+        postal_code = validated_data.pop('postal_code')
+        phone_number = validated_data.pop('phone_number')
 
-        # Crée l'utilisateur
+        # User creation
         user = User.objects.create_user(
             username=validated_data['username'],
             email=validated_data['email'],
             password=validated_data['password']
         )
 
-        # Crée le profil client lié à l'utilisateur
+        # Client creation
         Client.objects.create(
-            user=user,
             first_name=first_name,
             last_name=last_name,
             city=city,
-            code_postale=code_postale
+            postal_code=postal_code,
+            phone_number=phone_number,
+            # fk
+            user=user
         )
         return user
 
-# Sérialiseur pour les détails de l'utilisateur (pour les vues protégées)
+# User serializer
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('id', 'username', 'email')
 
-# Sérialiseur pour le profil Client (lecture seule ou mise à jour)
+# Client serializer
 class ClientSerializer(serializers.ModelSerializer):
-    user = UserSerializer(read_only=True) # Affiche les détails de l'utilisateur lié
+    # fk
+    user = UserSerializer(read_only=True)
+
     class Meta:
         model = Client
         fields = '__all__'
+    
 
-# Sérialiseur pour la catégorie
+# Category serializer
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
         fields = '__all__'
 
-# Sérialiseur pour le produit
+# Product serializer
 class ProductSerializer(serializers.ModelSerializer):
-    category_name = serializers.CharField(source='category.name', read_only=True) # Affiche le nom de la catégorie
+    # fk 
+    category = CategorySerializer(read_only=True)
+
+    image = serializers.ImageField(read_only=True) # absolute path to the image by default, so I can miss it
+
     class Meta:
         model = Product
-        fields = '__all__' # Inclut 'image'
-
-# Sérialiseur pour les commentaires
+        fields = [
+            'id',
+            'name',
+            'description',
+            'adding_date',
+            'stock',
+            'current_price',
+            'promotion',
+            'image',
+            'category',
+        ]
+        read_only_fields = ['adding_date']
+    
+    def get_image_url(self, obj):
+        if obj.image and hasattr(obj.image, 'url'):
+            request = self.context.get('request')
+            if request is not None:
+                return request.build_absolute_uri(obj.image.url)
+            # Fallback si la requête n'est pas disponible (ex: en tests ou context vide)
+            return obj.image.url
+        return None
+        
+    
+# Comment serializer
 class CommentSerializer(serializers.ModelSerializer):
+    # fk
     client_username = serializers.CharField(source='client.user.username', read_only=True)
     product_name = serializers.CharField(source='product.name', read_only=True)
+
     class Meta:
         model = Comment
         fields = '__all__'
-        read_only_fields = ('client', 'product', 'created_at') # Le client et le produit sont définis par la vue, la date est auto
+        read_only_fields = ('client', 'product', 'created_data')
+    
 
-# Sérialiseur pour les produits dans une commande (OrderProduct)
+
+# Order_Product serializer
 class OrderProductSerializer(serializers.ModelSerializer):
+    # fk
     product_name = serializers.CharField(source='product.name', read_only=True)
     product_price = serializers.DecimalField(source='product.current_price', max_digits=10, decimal_places=2, read_only=True)
+
     class Meta:
         model = OrderProduct
         fields = ('id', 'product', 'product_name', 'product_price', 'quantity', 'oneself_price')
-        read_only_fields = ('oneself_price',) # Le prix est fixé au moment de l'ajout
+        read_only_fields = ('oneself_price',)
 
-# Sérialiseur pour les commandes
+
+# Order Serializer
 class OrderSerializer(serializers.ModelSerializer):
     order_products = OrderProductSerializer(many=True, read_only=True) # Liste des produits dans la commande
     client_username = serializers.CharField(source='client.user.username', read_only=True)
@@ -93,13 +130,15 @@ class OrderSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Order
-        fields = ('id', 'status', 'date_order', 'client', 'client_username', 'total_amount', 'order_products', 'payment_status')
-        read_only_fields = ('client', 'total_amount', 'date_order') # Le client est défini par la vue, le total et la date sont calculés/auto
+        fields = ('id', 'status', 'order_date', 'client', 'client_username', 'total_amount', 'order_products', 'payment_status')
+        read_only_fields = ('client', 'total_amount', 'order_date')
 
-# Sérialiseur pour les paiements
+# Payment serializer
 class PaymentSerializer(serializers.ModelSerializer):
+    # fk
     order_id = serializers.IntegerField(source='order.id', read_only=True)
+
     class Meta:
         model = Payment
         fields = '__all__'
-        read_only_fields = ('order', 'date_payment') # L'ordre est défini par la vue, la date est auto
+        read_only_fields = ('order', 'payment_date')

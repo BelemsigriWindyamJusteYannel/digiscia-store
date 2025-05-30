@@ -24,9 +24,8 @@ export const logout = async (refreshToken) => {
   return response.data;
 };
 
-export default {
-  signup,
-  login1,
-  getProfile,
-  logout
+
+export const modifyClient = async (client) => {
+  const response = await api.put(`client/update/`,client);
+  return response.data;
 }

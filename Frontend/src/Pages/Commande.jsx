@@ -4,42 +4,61 @@ import image from './Laptop.jpeg';
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { getProfile } from "../api/user";
-
+import { getCommands, getCommandById } from "../api/command";
+import FadeInOnScroll from "../Components/fadeInOnScroll/FadeInOnScroll";
 const Commande = () => {
     const [profile, setProfile] = useState({});
+    //const [ order_products, setOrder_products ] = useState([]);
+    const [ orders, setOrders ] = useState([])
     useEffect(() => {
         getProfile().then(data => {
             setProfile(data);
         });
+
+        getCommands().then(data => {
+            setOrders(data);
+        }); 
+
     }, []);
 
-    console.log(profile)
-    const commands = axios.get("http://localhost:8000/orders/")
-    .then(data=>{
-        console.log(data)
-    })
+    console.log("profile =>",profile)
+    console.log("orders =>",orders);
 
     return(
         <div className="flex flex-col items-center md:items-start md:flex-row p-10 gap-10">
             <div className="w-60">
-                <ul className="flex flex-col items-center gap-2 md:items-start">
-                    <Link to='/Compte'>
-                        <li className="font-bold">Votre Compte</li>
-                    </Link>
-                    <Link to='/Commandes'>
-                        <li className="font-bold text-red-500">Vos Commandes</li>
-                    </Link>
-                </ul>
+                <FadeInOnScroll>
+                    <ul className="flex flex-col items-center gap-2 md:items-start">
+                        <Link to='/Compte'>
+                            <li className="font-bold">Votre Compte</li>
+                        </Link>
+                        <Link to='/Commandes'>
+                            <li className="font-bold text-red-500">Vos Commandes</li>
+                        </Link>
+                    </ul>
+                </FadeInOnScroll>
             </div>
-            <div className="sm:flex w-full">
-                <div className="flex-1 ">
-                    <div className="w-full border border-gray-300 p-5 rounded-sm bg-gray-100 border-b-red-300">
-                        <h2>Commandes en cours</h2>
+            <div className="sm:flex w-full h-screen">
+                <FadeInOnScroll>
+                    <div className="flex-1 ">
+                        <div className="w-full border border-gray-300 p-5 rounded-sm bg-gray-100 border-b-red-300">
+                            <h2>Commandes en cours</h2>
+                        </div>
+                        {
+                            orders.length ? (
+                                orders.map((item,index)=>(
+                                    <div key={index} className="border border-gray-300 border-t-red-300">
+                                        <CommandItem order={item}/>
+                                    </div>
+                                ))
+                            ) : (
+                                <div className="w-full text-center p-25 text-red-400">
+                                    <h1>Vous n'avez aucune commande</h1>
+                                </div>
+                            )
+                        }
                     </div>
-                    <div className="border border-gray-300 border-t-red-300">
-                       <CommandItem/>
-                    </div>
-                </div>
+                </FadeInOnScroll>
             </div>
         </div>
     )

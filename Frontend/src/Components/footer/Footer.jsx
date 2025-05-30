@@ -1,8 +1,19 @@
 import './Footer.css'
 import { Copyright,Facebook,Instagram   } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { getProfile } from '../../api/user';
 const Footer = () => {
-    return <div className='pt-10 bg-amber-600'>
+    const [ profile, setProfile ] = useState({})
+    const navigate = useNavigate();
+    useEffect(()=>{
+        getProfile().then(data => {
+            setProfile(data);
+        });
+    })
+
+    return <div className='pt-10 bg-orange-400'>
         <section className='flex flex-col items-center space-y-5 pb-5 sm:flex-row sm:px-10 sm:justify-around'>
             <div className='flex-col'>
                 <Link to='/'>
@@ -28,21 +39,27 @@ const Footer = () => {
             </div>
             <div className='font-bold text-center space-y-1 sm:text-start'>
                 <div className='font-extrabold text-xl'>
-                    <Link to='/Compte'>
-                        <p>Mon compte</p>
-                    </Link>
+                    <p className='cursor-pointer' onClick={()=>{
+                        if(profile.first_name){
+                            navigate('/Compte');
+                        }
+                    }}>Mon compte</p>
                 </div>
-                <Link to='/Compte'>
-                    <p>Details du compte</p>
-                </Link>
-                <Link to='/Commandes'>
-                    <p>Mes commandes</p>
-                </Link>
+                <p className='cursor-pointer' onClick={()=>{
+                    if(profile.first_name){
+                        navigate('/Compte');
+                    }
+                }}>Details du compte</p>
+                <p className='cursor-pointer' onClick={()=>{
+                    if(profile.first_name){
+                        navigate('/Commandes');
+                    }
+                }}>Mes commandes</p>
             </div>
         </section>
         <div className='flex p-1 pl-10 bg-gray-100 text-gray-600'>
             <Copyright />
-            <h3 className='font-bold'>ELectroInfos-All Rights Reserved</h3>
+            <h3 className='font-bold'>DigiScia-All Rights Reserved</h3>
         </div>
     </div>
 }

@@ -1,74 +1,118 @@
 import Categories from "../Components/sideBars/Categories/Categories";
 import Item from "../Components/item/Item";
 //import image from "./Laptop.jpeg"
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 //import products from '../pseudoData/data'
 import Carousel from "../Components/carousel/Carousel";
-import { products } from "../test_API/test";
+//import { products } from "../test_API/test";
+import "../App.css"
+import FadeInOnScroll from "../Components/fadeInOnScroll/FadeInOnScroll";
+import { getProducts } from "../api/product";
 
 const Home = () => {
-    const [ time, setTime ] = useState(10)
-    useEffect(()=>{
-        if(time > 0){
-            setInterval(()=>{
-                setTime((prev)=>{
-                    return prev - 1;
-                })
-            },1000)
-        }
-    },[])
+    const [visible, setVisible] = useState(false);
+
+  // 🎯 Date cible = maintenant + 7 jours
+  const targetDate = new Date();
+  targetDate.setDate(targetDate.getDate() + 7);
+
+  // 🧠 Fonction pour calculer le temps restant
+  const calculateTimeLeft = () => {
+    const difference = targetDate - new Date();
+    if (difference <= 0) {
+      return { days: 0, hours: 0, minutes: 0, seconds: 0 };
+    }
+
+    return {
+      days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+      hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+      minutes: Math.floor((difference / 1000 / 60) % 60),
+      seconds: Math.floor((difference / 1000) % 60),
+    };
+  };
+
+  const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
+
+  useEffect(() => {
+    // ⏱ Afficher l'élément après 100ms
+    const timeout = setTimeout(() => {
+      setVisible(true);
+    }, 100);
+
+    // 🔁 Lancer le compte à rebours
+    const interval = setInterval(() => {
+      setTimeLeft(calculateTimeLeft());
+    }, 1000);
+
+    // 🧹 Nettoyage des timers
+    return () => {
+      clearTimeout(timeout);
+      clearInterval(interval);
+    };
+  }, []);
 
     return(
         <div>
-            <div className="flex flex-col gap-5 items-center p-10  bg-amber-300 sm:flex-row sm:justify-between shadow-2xl">
+            <div className={`flex flex-col gap-5 items-center p-10 sm:flex-row sm:justify-between shadow-xl h-screen transition-opacity duration-1000 ease-out ${
+        visible? "opacity-100" : "opacity-0"}`}>
                 <Categories/>
                 <Carousel/>
             </div>
-            <div className="p-10 space-y-5 overflow-hidden bg-amber-600 flex flex-col items-center">
-                <div className="flex justify-center">
-                    <p className=" font-bold text-4xl">Products</p>
+            <FadeInOnScroll>
+                <div className={`p-10 space-y-5 overflow-hidden  flex flex-col items-center justify-around h-screen`}>
+                    <div className="flex justify-center">
+                        <p className=" font-bold text-4xl">Products</p>
+                    </div>
+                    <div className="flex overflow-x-auto gap-5 w-full p-5 scroll-smooth no-scrollbar">
+                        {
+                            getProducts.data.map((product,index)=>(
+                                <Item key={index}
+                                    id={product.id}
+                                    name={product.name}
+                                    description={product.description}
+                                    price= {product.current_price}
+                                    stock= {product.stock}
+                                    category= {product.category}
+                                    image={product.image}
+                                />
+                            ))
+                        }
+                    </div>
                 </div>
-                <div className="flex overflow-x-scroll gap-5 w-300 p-5">
-                    {
-                        products.map((product,index)=>(
-                            <Item key={index}
-                                id={product.id}
-                                name={product.name}
-                                description={product.description}
-                                price= {product.current_price}
-                                stock= {product.stock}
-                                category= {product.category}
-                                image={product.image}
-                            />
-                        ))
-                    }
-                </div>
-            </div>
+            </FadeInOnScroll>
             {
-                time > 0 ? (
-                    <div className="p-10 space-y-5 overflow-hidden bg-amber-400 flex flex-col items-center">
-                        <div className="flex w-full justify-around">
-                            <p className="text-3xl font-bold">- Flash Sell</p>
-                            <div className="w-1/2">
-                                <h3 className="font-bold">Temps restant: {time} </h3>
+                (timeLeft.days > 0 || timeLeft.hours > 0 || timeLeft.minutes > 0 || timeLeft.seconds > 0) > 0 ? (
+                    <FadeInOnScroll>
+                        <div className={`p-10 space-y-5 overflow-hidden bg-orange-500 flex flex-col items-center justify-around h-screen`}>
+                            <div className="flex w-full justify-around">
+                                <p className="text-3xl font-bold">- Flash Sell</p>
+                                <div className="w-1/2">
+                                    <h3 className="font-bold">Temps restant: {timeLeft.days} jour{timeLeft.days !== 1 && "s"}{" "}
+            {timeLeft.hours}h {timeLeft.minutes}m {timeLeft.seconds}s </h3>
+                                </div>
+                            </div>
+                            <div className="flex overflow-x-auto gap-5 w-full p-5 scroll-smooth no-scrollbar">
+                                {
+                                    getProducts.data.map((product,index)=>{
+                                        console.log(product)
+                                        if(product.promotion >= 80){
+                                            return(
+                                                <Item key={index}
+                                                    id={product.id}
+                                                    name={product.name}
+                                                    description={product.description}
+                                                    price= {product.current_price}
+                                                    stock= {product.stock}
+                                                    category= {product.category}
+                                                    image={product.image}
+                                                />
+                                            )
+                                        }
+                                    })
+                                }
                             </div>
                         </div>
-                        <div className="flex overflow-x-scroll gap-5 w-300 p-5">
-                            {
-                                products.map((product,index)=>(
-                                    <Item key={index}
-                                        id={product.id}
-                                        name={product.name}
-                                        description={product.description}
-                                        price= {product.current_price}
-                                        stock= {product.stock}
-                                        category= {product.category}
-                                        image={product.image}
-                                    />
-                                ))
-                            }
-                        </div>
-                    </div>
+                    </FadeInOnScroll>
                 ) : (
                     <><p className="font-bold text-red-400">Vente Flash terminée</p></>
                 )

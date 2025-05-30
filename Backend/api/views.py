@@ -1,5 +1,7 @@
-# --- Partie 4: Création des vues API (ecommerce/views.py) ---
-# ecommerce/views.py
+from django.shortcuts import get_object_or_404
+from django.db import transaction
+from django.db.models import F # Pour les opérations atomiques sur les champs
+
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
@@ -7,18 +9,23 @@ from rest_framework import status
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from rest_framework_simplejwt.tokens import RefreshToken
+
 from .models import Client, Category, Product, Comment, Order, Payment, OrderProduct
 from .serializers import (
-    UserRegistrationSerializer, ClientSerializer, CategorySerializer,
+    RegisterUserSerializer, ClientSerializer, CategorySerializer,
     ProductSerializer, CommentSerializer, OrderSerializer,
     PaymentSerializer, OrderProductSerializer
 )
-from django.shortcuts import get_object_or_404
-from django.db import transaction
-from django.db.models import F # Pour les opérations atomiques sur les champs
 
-# --- Vues d'authentification JWT ---
+# Searching 
+from django.contrib.postgres.search import SearchQuery, SearchVector
+#from django.db.models import Q
 
+# Create your views here.
+
+
+# Authentication views through JWT
+# Sign up
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def signup_view(request):
@@ -26,9 +33,9 @@ def signup_view(request):
     Vue API pour l'inscription d'un nouvel utilisateur et la création de son profil Client.
     Renvoie les tokens JWT (access et refresh).
     """
-    serializer = UserRegistrationSerializer(data=request.data)
+    serializer = RegisterUserSerializer(data=request.data)
     if serializer.is_valid():
-        user = serializer.save() # La méthode create du sérialiseur gère la création de User et Client
+        user = serializer.save()
         refresh = RefreshToken.for_user(user)
         return Response({
             "message": "Utilisateur et profil client créés avec succès",
@@ -39,6 +46,7 @@ def signup_view(request):
         }, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+# Login
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def login_view(request):
@@ -66,6 +74,7 @@ def login_view(request):
             status=status.HTTP_401_UNAUTHORIZED
         )
 
+# Logout
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def logout_view(request):
@@ -83,6 +92,8 @@ def logout_view(request):
     except Exception as e:
         return Response({"detail": f"Erreur lors de la déconnexion: {e}"}, status=status.HTTP_400_BAD_REQUEST)
 
+# User 
+# Get user profile
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def user_profile_view(request):
@@ -98,27 +109,40 @@ def user_profile_view(request):
     except Exception as e:
         return Response({"detail": f"Erreur lors de la récupération du profil: {e}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-# --- Vues E-commerce ---
+# Modify client
+@api_view(['PUT'])
+@permission_classes([IsAuthenticated])
+def client_detail_view(request):
+    """
+        get user by id or modify him
+    """
+    client_profile = request.user.client_profile
+    print(client_profile)
+    serializer = ClientSerializer(client_profile, data=request.data, partial=True)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
 
-@api_view(['GET', 'POST'])
+
+
+
+
+# Other views
+# Category
+# Get Category list
+@api_view(['GET'])
 @permission_classes([AllowAny]) # GET pour tous, POST pour IsAdminUser
-def category_list_create_view(request):
+def category_list_view(request):
     """
     Liste toutes les catégories ou en crée une nouvelle.
     """
-    if request.method == 'GET':
-        categories = Category.objects.all()
-        serializer = CategorySerializer(categories, many=True)
-        return Response(serializer.data)
-    elif request.method == 'POST':
-        if not request.user.is_staff: # Seuls les administrateurs peuvent créer des catégories
-            return Response({"detail": "Vous n'avez pas la permission de créer une catégorie."}, status=status.HTTP_403_FORBIDDEN)
-        serializer = CategorySerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    categories = Category.objects.all()
+    serializer = CategorySerializer(categories, many=True)
+    return Response(serializer.data)
 
+# Category detail
 @api_view(['GET', 'PUT', 'DELETE'])
 @permission_classes([AllowAny]) # GET pour tous, PUT/DELETE pour IsAdminUser
 def category_detail_view(request, pk):
@@ -143,25 +167,20 @@ def category_detail_view(request, pk):
         category.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-@api_view(['GET', 'POST'])
+
+# Product
+# Get product list
+@api_view(['GET'])
 @permission_classes([AllowAny]) # GET pour tous, POST pour IsAdminUser
-def product_list_create_view(request):
+def product_list_view(request):
     """
     Liste tous les produits ou en crée un nouveau.
     """
-    if request.method == 'GET':
-        products = Product.objects.all()
-        serializer = ProductSerializer(products, many=True)
-        return Response(serializer.data)
-    elif request.method == 'POST':
-        if not request.user.is_staff: # Seuls les administrateurs peuvent créer des produits
-            return Response({"detail": "Vous n'avez pas la permission de créer un produit."}, status=status.HTTP_403_FORBIDDEN)
-        serializer = ProductSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    products = Product.objects.all()
+    serializer = ProductSerializer(products, many=True, context={'request': request})
+    return Response(serializer.data)
 
+# Product detail
 @api_view(['GET', 'PUT', 'DELETE'])
 @permission_classes([AllowAny]) # GET pour tous, PUT/DELETE pour IsAdminUser
 def product_detail_view(request, pk):
@@ -170,12 +189,14 @@ def product_detail_view(request, pk):
     """
     product = get_object_or_404(Product, pk=pk)
     if request.method == 'GET':
-        serializer = ProductSerializer(product)
+        # PASSER LE CONTEXTE ICI
+        serializer = ProductSerializer(product, context={'request': request})
         return Response(serializer.data)
     elif request.method == 'PUT':
+        # PASSER LE CONTEXTE ICI
+        serializer = ProductSerializer(product, data=request.data, partial=True, context={'request': request})
         if not request.user.is_staff: # Seuls les administrateurs peuvent modifier
             return Response({"detail": "Vous n'avez pas la permission de modifier ce produit."}, status=status.HTTP_403_FORBIDDEN)
-        serializer = ProductSerializer(product, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
@@ -186,6 +207,41 @@ def product_detail_view(request, pk):
         product.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+# Search products
+@api_view(['GET'])
+def search_products(request):
+    query = request.GET.get('q', '')
+    if query:
+        products = Product.objects.annotate(
+            search=SearchVector('name', 'description', 'category__name')
+        ).filter(search=SearchQuery(query))
+    else:
+        products = Product.objects.none()
+
+    serializer = ProductSerializer(products, many=True, context={'request': request})
+    return Response(serializer.data)
+
+
+from django.contrib.postgres.search import TrigramSimilarity
+from django.db.models import F
+@api_view(['GET'])
+def search_products_similar(request):
+    query = request.GET.get('q', '')
+    if not query:
+        return Response([], status=status.HTTP_200_OK)
+
+    products = Product.objects.select_related('category').annotate(
+        sim_name=TrigramSimilarity('name', query),
+        sim_desc=TrigramSimilarity('description', query),
+        sim_cat=TrigramSimilarity('category__name', query),  # foreign key
+        total_similarity=F('sim_name') + F('sim_desc') + F('sim_cat')
+    ).filter(total_similarity__gt=0.3).order_by('-total_similarity')
+
+    serializer = ProductSerializer(products, many=True, context={'request': request})
+    return Response(serializer.data)
+
+# Comment
+# Get Comment list or create Comment
 @api_view(['GET', 'POST'])
 @permission_classes([AllowAny]) # GET pour tous, POST pour IsAuthenticated
 def comment_list_create_view(request):
@@ -219,6 +275,7 @@ def comment_list_create_view(request):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+# Modify Comment
 @api_view(['GET', 'PUT', 'DELETE'])
 @permission_classes([IsAuthenticated]) # Seuls l'auteur ou l'admin peuvent modifier/supprimer
 def comment_detail_view(request, pk):
@@ -248,19 +305,23 @@ def comment_detail_view(request, pk):
         comment.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+# Order
+# Get Order list or Create Order
 @api_view(['GET', 'POST'])
 @permission_classes([IsAuthenticated]) # Les commandes ne peuvent être vues/créées que par des utilisateurs authentifiés
 def order_list_create_view(request):
+    
     """
     Liste les commandes de l'utilisateur connecté ou crée une nouvelle commande.
     """
     try:
         client_profile = request.user.client_profile
+        print(request.data)
     except Client.DoesNotExist:
         return Response({"detail": "Profil client non trouvé pour l'utilisateur."}, status=status.HTTP_400_BAD_REQUEST)
 
     if request.method == 'GET':
-        orders = Order.objects.filter(client=client_profile).order_by('-date_order') # Tri par date décroissante
+        orders = Order.objects.filter(client=client_profile).order_by('-order_date') # Tri par date décroissante
         serializer = OrderSerializer(orders, many=True)
         return Response(serializer.data)
     elif request.method == 'POST':
@@ -307,6 +368,7 @@ def order_list_create_view(request):
             serializer = OrderSerializer(order)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
+# Modify Order
 @api_view(['GET', 'PUT', 'DELETE'])
 @permission_classes([IsAuthenticated])
 def order_detail_view(request, pk):
@@ -317,7 +379,7 @@ def order_detail_view(request, pk):
         client_profile = request.user.client_profile
     except Client.DoesNotExist:
         return Response({"detail": "Profil client non trouvé pour l'utilisateur."}, status=status.HTTP_400_BAD_REQUEST)
-
+    
     order = get_object_or_404(Order, pk=pk, client=client_profile) # S'assure que l'utilisateur est le propriétaire de la commande
 
     if request.method == 'GET':
@@ -361,6 +423,7 @@ def order_detail_view(request, pk):
             order.delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
 
+# More
 @api_view(['GET', 'POST', 'DELETE']) # Ajout de DELETE pour supprimer un OrderProduct d'une commande
 @permission_classes([IsAuthenticated]) # Seuls les utilisateurs authentifiés peuvent ajouter/voir/supprimer des produits à une commande
 def order_product_list_create_delete_view(request, order_pk):
@@ -432,6 +495,7 @@ def order_product_list_create_delete_view(request, order_pk):
             order_product.delete()
             return Response({"message": "Produit retiré de la commande."}, status=status.HTTP_204_NO_CONTENT)
 
+# Payment 
 
 @api_view(['GET', 'POST']) # GET pour voir, POST pour créer un paiement pour une commande
 @permission_classes([IsAuthenticated])
@@ -470,6 +534,9 @@ def payment_list_create_view(request, order_pk):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+# Email
+
+from django.core.mail import send_mail
 # EMAIL SENDER
 @api_view(['POST'])
 @permission_classes([AllowAny])
@@ -490,3 +557,4 @@ def send_email(request):
     )
 
     return Response({'status': 'Email envoyé avec succès'})
+

@@ -6,14 +6,16 @@ import { Link } from 'react-router-dom';
 import { cartContext } from '../../Reducers/cart/cartContext';
 import { useContext } from 'react';
 import { CartProvider } from '../../Reducers/cart/cartContext';
+import { getProducts } from '../../api/product';
 
 const Item = ({id,name,description,price,available,stock,category,image}) => {
     const { dispatch } = useContext(cartContext);
+
     return(
         <div className="w-50 max-w-sm bg-[#ffffffd2] border border-gray-200 rounded-lg shadow-2xl hover:scale-105 duration-300 ">
-            <a href="#">
-                <img className="p-8 rounded-t-lg" src={image} alt="product image" />
-            </a>
+            <div className='flex h-50'>
+                <img className="p-8 w-full  h-full" src={image} alt="product image" />
+            </div>
             <div className="px-5 pb-5">
                 <Link to={`/Description/${name}`}>
                     <h5 className="text-sm font-semibold ">{name}</h5>
@@ -40,14 +42,15 @@ const Item = ({id,name,description,price,available,stock,category,image}) => {
                 </div>
                 <div className="flex items-center justify-between">
                     <span className="text-[10px] text-gray-900">{price} DHS</span>
-                    <p className="text-white bg-amber-400 rounded-lg py-1 px-2 text-center hover:scale-110 hover:cursor-pointer" onClick={()=>{dispatch({
+                    <p className="text-white bg-amber-400 rounded-lg py-1 px-2 text-center hover:scale-110 hover:cursor-pointer" 
+                    onClick={()=>{
+                        const product= getProducts.data.find(element=>element.id == id)
+                        console.log("products =>",product)
+                        dispatch({
                         type :"product/add", 
                         payload: {
-                            id: id,
-                            cartItem: {
-                                name,
-                                price,
-                            },
+                            id,
+                            product,
                             count: 1,
                             preprice: price
                         } 

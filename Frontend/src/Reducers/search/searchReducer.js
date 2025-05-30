@@ -1,16 +1,38 @@
-import { categories } from "../../test_API/test";
+import { categories, products } from "../../test_API/test";
+
+
 export const searchReducer = (state,action) =>{
     switch(action.type){
         case 'search/global':
-            const matchedValues = action.payload.data.filter((item)=>{
-                const target = categories.find(element=>element.name = action.payload.target )
-                return item.category == target.id
-            })
-            return matchedValues;
+            console.log("Current state =>",state)
+            const target = []
+            products.map(element=>{
+                if(element.category.name == action.payload.target){
+                    target.push(element);
+                }
+            } )
+            //console.log(target)
+            return target
+        case 'search/specific':
+            console.log("Current state =>",state)
+            console.log("action.payload.data =>",action.payload.data)
+            return action.payload.data
         case 'search/filter':
-            const filteredValues = action.payload.data.filter((item)=>{
-                return item.price == action.payload.target
+            const filteredValues = []
+            state.length > 0 ?
+            state.map(element=>{
+                if( element.current_price > action.payload.filterMinPrice & element.current_price < action.payload.filterMaxPrice ){
+                    filteredValues.push(element);
+                }
+            }) : products.map(element=>{
+                if( element.current_price > action.payload.filterMinPrice 
+                    & element.current_price < action.payload.filterMaxPrice 
+                    & element.category.name == action.payload.target )
+                {
+                    filteredValues.push(element);
+                }
             })
+            console.log(filteredValues)
             return filteredValues;
         default :
             return state;

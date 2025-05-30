@@ -3,23 +3,27 @@ import image from './Laptop.jpeg'
 import Item from '../item/Item'
 import { ChevronRight,ChevronLeft } from 'lucide-react'
 import { SearchContext } from '../../Reducers/search/SearchContext'
-import { useContext, useEffect } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 //import data from '../../pseudoData/data'
 import { cartContext } from '../../Reducers/cart/cartContext'
-import { products, categories } from '../../test_API/test'
+//import { products, categories } from '../../test_API/test'
+import { getProducts } from '../../api/product'
 const Details = () => {
+    const [ clicked, setClicked ] = useState(false);
     const { searchResult, searchDispatch } = useContext(SearchContext)
     const { name } = useParams();
+    console.log(name)
     const { dispatch } = useContext(cartContext);
-    const item = products.find((item)=>item.name == name)
+    const item = getProducts.data.find((item)=>item.name == name)
+    console.log(item)
     useEffect(()=>{
 
         searchDispatch({
             type: "search/global",
             payload: {
                 target: name,
-                data: products
+                data: getProducts.data
             }
         })
     },[])
@@ -29,10 +33,7 @@ const Details = () => {
             type:"product/add",
             payload: {
                 id: item.id,
-                cartItem: {
-                    name: item.name,
-                    price: item.current_price
-                },
+                product: item,
                 count: 1,
                 preprice: item.current_price
             }
@@ -66,14 +67,40 @@ const Details = () => {
                 </div>
             </div>
             <div className='space-y-5'>
-                <h1 className='font-bold text-center border-b border-gray-200'>Description</h1>
-                <p className='text-justify'>
-                    {item.description}
-                </p>
+                <div className='flex justify-around'>
+                    <div>
+                        <h1 
+                            className='font-bold text-center border-b border-gray-200'
+                            onClick={()=>setClicked(prev=>!prev)}>Description</h1>
+                    </div>
+                    <div>
+                        <h1 
+                            className='font-bold text-center border-b border-gray-200'
+                            onClick={()=>setClicked(prev=>!prev)}>Comments</h1>
+                    </div>
+                </div>
+                {
+                    !clicked ? (
+                        <div>
+                            <p className='text-justify'>
+                                {item.description}
+                            </p>
+                        </div>
+                    ) : (
+                        <div>
+                            <p className='text-justify'>
+                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente, 
+                                    repudiandae? Ullam, asperiores non iure minus, 
+                                    quasi ipsa ipsam vero adipisci iusto
+                                    consectetur doloremque minima nobis ex dolore harum porro magni.
+                            </p>
+                        </div>
+                    )
+                }
             </div>
             <div className='space-y-5 overflow-hidden '>
                 <h1 className='font-bold text-center border-b border-gray-200 '>Produits similaire</h1>
-                <div className='flex overflow-x-scroll gap-5 w-300 p-5 '>
+                <div className="flex overflow-x-auto gap-5 w-full p-5 scroll-smooth no-scrollbar">
                     {
                         searchResult.map((item,index)=>
                             <Item 
