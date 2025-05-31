@@ -11,6 +11,7 @@ import { getProducts } from "../api/product";
 
 const Home = () => {
     const [visible, setVisible] = useState(false);
+    const [ isMobileSize,setIsMobileSize ] = useState(window.innerWidth < 1115);
 
   // 🎯 Date cible = maintenant + 7 jours
   const targetDate = new Date();
@@ -44,19 +45,39 @@ const Home = () => {
       setTimeLeft(calculateTimeLeft());
     }, 1000);
 
-    // 🧹 Nettoyage des timers
-    return () => {
-      clearTimeout(timeout);
-      clearInterval(interval);
+    // Resizing
+    const handleResizing = () => {
+        setIsMobileSize(()=>{
+            return window.innerWidth < 1115;
+        })
     };
+
+    window.addEventListener("resize", handleResizing);
+    // 🧹 Nettoyage des timers et la suppression de l'écouteur
+    return () => {
+        clearTimeout(timeout);
+        clearInterval(interval);
+        window.removeEventListener('resize',handleResizing);
+    };
+
+    
+
   }, []);
 
     return(
         <div>
-            <div className={`flex flex-col gap-5 items-center p-10 sm:flex-row sm:justify-between shadow-xl h-screen transition-opacity duration-1000 ease-out ${
+            <div className={`w-full flex gap-10 items-center  p-10 flex-row xl:justify-between shadow-xl h-screen transition-opacity duration-1000 ease-out ${
         visible? "opacity-100" : "opacity-0"}`}>
-                <Categories/>
-                <Carousel/>
+                {
+                    !isMobileSize ?(
+                        <Categories/>
+                    ) : (
+                        <></>
+                    )
+                }
+                <div className="w-full h-full">
+                    <Carousel/>
+                </div>
             </div>
             <FadeInOnScroll>
                 <div className={`p-10 space-y-5 overflow-hidden  flex flex-col items-center justify-around h-screen`}>

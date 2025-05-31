@@ -12,7 +12,7 @@ const Categories = () =>{
         })
     },[])
     return(
-        <div className='w-60 rounded-sm p-5 space-y-5 bg-amber-100'>
+        <div className='w-60 rounded-sm p-5 space-y-5 bg-orange-200'>
             <div className='rounded-xl py-2 flex justify-center text-[#fffffff1] bg-orange-500'>
                 <h2 className='font-bold'>Categories</h2>
             </div>

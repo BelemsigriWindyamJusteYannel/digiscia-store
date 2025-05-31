@@ -7,11 +7,11 @@ import FadeInOnScroll from "../Components/fadeInOnScroll/FadeInOnScroll";
 
 const CategoriesPage = () => {
     const { name } = useParams();
-    const [ isMobileSize,setIsMobileSize ] = useState(window.innerWidth < 722);
+    const [ isMobileSize,setIsMobileSize ] = useState(window.innerWidth < 769);
     useEffect(()=>{
         const handleResizing = () => {
             setIsMobileSize(()=>{
-                return window.innerWidth < 722;
+                return window.innerWidth < 769;
             })
         };
 
@@ -21,8 +21,8 @@ const CategoriesPage = () => {
     },[])
 
     return(
-        <div>
-            <div className="flex flex-col items-center p-10 gap-10 sm:flex-row sm:items-start">
+        <div className="flex flex-col items-center md:items-start justify-between md:flex-row w-full sm:pr-10">
+            <div className="flex flex-col items-center p-10 gap-10 sm:items-start">
                 {
                     !isMobileSize ? (
                         <FadeInOnScroll>
@@ -32,13 +32,15 @@ const CategoriesPage = () => {
                             </div>
                         </FadeInOnScroll>
                     ) : (
-                        <p></p>
+                        <></>
                     )
                 }
+            </div>
+            <div className="flex-auto">
                 <FadeInOnScroll>
                     <List categoryName={name}/>           
-                </FadeInOnScroll>
-            </div>             
+                </FadeInOnScroll>     
+            </div>            
         </div>
     )
 }

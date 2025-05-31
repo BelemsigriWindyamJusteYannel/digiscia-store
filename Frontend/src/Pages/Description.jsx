@@ -23,7 +23,7 @@ const Description = () => {
             <div className="flex flex-col items-center gap-10 p-10 xl:flex-row xl:items-start xl:justify-between">
             {
                     !isMobileSize ? (
-                        <div className=" bg-amber-100 p-10 h-fit rounded-2xl sm:sticky top-0">
+                        <div className=" bg-orange-200 p-10 h-fit rounded-2xl sm:sticky top-0">
                             <Filter/>
                             <Categories/>
                         </div>

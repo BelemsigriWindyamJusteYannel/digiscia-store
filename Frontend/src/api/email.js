@@ -4,7 +4,16 @@ export const sendOrderConfirmation = async (profile) => {
     const response = await api.post("send-email/",{
         to: profile.user.email,
         subject: 'Validation de commande',
-        message: 'Votre Commande a été valider avec succès',
+        message: 'Votre Commande a été validée avec succès',
+    })
+    return response;
+}
+
+export const sendCancelingConfirmation = async (profile) => {
+    const response = await api.post("send-email/",{
+        to: profile.user.email,
+        subject: 'Validation de commande',
+        message: 'Votre Commande a été annulée avec succès',
     })
     return response;
 }

@@ -48,7 +48,7 @@ const Commande = () => {
                             orders.length ? (
                                 orders.map((item,index)=>(
                                     <div key={index} className="border border-gray-300 border-t-red-300">
-                                        <CommandItem order={item}/>
+                                        <CommandItem order={item} profile={profile} />
                                     </div>
                                 ))
                             ) : (

@@ -4,7 +4,7 @@ import { useContext, useEffect, useState } from 'react';
 import { SearchContext } from '../../../Reducers/search/SearchContext';
 //import data from '../../../pseudoData/data';
 const Filter = ({categoryName}) => {
-    const [ filterMinPrice, setFilterMinPrice ] = useState(0);
+    const [ filterMinPrice, setFilterMinPrice ] = useState(100);
     const [ filterMaxPrice, setFilterMaxPrice ] = useState(10000);
     const { searchDispatch } = useContext(SearchContext);
 
@@ -32,7 +32,7 @@ const Filter = ({categoryName}) => {
                     <div className="relative w-full">
                         <label htmlFor="price-range-input" className="sr-only">Default range</label>
                         <input 
-                            onChange={(e)=>setFilterMinPrice((prev)=>{
+                            onChange={(e)=>setFilterMaxPrice((prev)=>{
                                 return e.target.value;
                             })} 
                             id="price-range-input" 
@@ -40,7 +40,7 @@ const Filter = ({categoryName}) => {
                             min="100" 
                             max="10000" 
                             className="w-full h-2 rounded-lg appearance-none cursor-pointer bg-gray-700 mb-5" 
-                            value={filterMinPrice}
+                            value={filterMaxPrice}
                         />
                         <div className='flex justify-between'>
                             <div>

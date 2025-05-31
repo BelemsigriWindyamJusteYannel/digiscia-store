@@ -1,7 +1,8 @@
 import image from '../carousel/Laptop.jpeg'
 import { getProducts } from '../../api/product';
 import { cancelCommandById,getCommands } from '../../api/command';
-const CommandItem = ({ order }) =>{
+import { sendCancelingConfirmation } from '../../api/email';
+const CommandItem = ({ order,profile }) =>{
 
     console.log("order =>",order)
     return(
@@ -42,8 +43,17 @@ const CommandItem = ({ order }) =>{
                         cancelCommandById(order.id)
                         .then(data=>{
                             console.log("onclick=>",data);
-                            alert("Commande annuler avec succès");
-                            window.location.href = window.location.href;
+                            sendCancelingConfirmation(profile)
+                            .then(response => {
+                                console.log(response.data.status);
+                                alert(`Commande annuler avec succès, un mail de confirmation vous sera envoyé`);
+                            })
+                            .catch(error => {
+                                console.error('Erreur:', error);
+                            })
+                            .finally(()=>{
+                                window.location.href = window.location.href;
+                            });
                         })
                         .catch(error=>{
                             console.log("Error => ",error)

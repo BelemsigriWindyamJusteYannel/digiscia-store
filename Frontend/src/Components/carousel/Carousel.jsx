@@ -36,13 +36,13 @@ const Carousel = () => {
         }, 5000);
 
         return () => clearInterval(interval);
-    },[images])
+    },[])
    
 
     console.log("images => ",images)
     console.log("images length => ",images.length)
     return(
-        <div className='w-80 sm:w-150 md:w-200 md:h-120 md:mr-30 relative 2xl:mr-100 flex justify-center'>
+        <div className='w-full h-full xl:mr-30 relative flex justify-center'>
             <img className='w-full  object-cover transition-all duration-700 ease-in-out rounded-2xl shadow-xl' src={images[currentSlide]} alt="" />         
             <button
                 onClick={nextSlide} 

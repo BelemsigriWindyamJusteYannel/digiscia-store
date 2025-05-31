@@ -40,7 +40,7 @@ const Details = () => {
         })
     }
     return(
-        <div className='flex flex-col gap-10 w-full xl:w-2/3 bg-amber-100 rounded-2xl p-10'>
+        <div className='flex flex-col gap-10 w-full xl:w-2/3 shadow-xl rounded-2xl p-10'>
             <div className='flex flex-col gap-5 w-full justify-around sm:flex-row'>
                 <img className='w-60 h-50 rounded-sm' src={item.image} alt={item.name} />
                 <div className='space-y-5' >
@@ -70,19 +70,19 @@ const Details = () => {
                 <div className='flex justify-around'>
                     <div>
                         <h1 
-                            className='font-bold text-center border-b border-gray-200'
+                            className='font-semibold text-xl text-center border-b border-gray-200 cursor-pointer'
                             onClick={()=>setClicked(prev=>!prev)}>Description</h1>
                     </div>
                     <div>
                         <h1 
-                            className='font-bold text-center border-b border-gray-200'
+                            className='font-semibold text-xl text-center border-b border-gray-200 cursor-pointer'
                             onClick={()=>setClicked(prev=>!prev)}>Comments</h1>
                     </div>
                 </div>
                 {
                     !clicked ? (
                         <div>
-                            <p className='text-justify'>
+                            <p className='text-justify '>
                                 {item.description}
                             </p>
                         </div>
@@ -99,7 +99,7 @@ const Details = () => {
                 }
             </div>
             <div className='space-y-5 overflow-hidden '>
-                <h1 className='font-bold text-center border-b border-gray-200 '>Produits similaire</h1>
+                <h1 className='font-semibold text-xl text-center border-b border-gray-200 '>Produits similaire</h1>
                 <div className="flex overflow-x-auto gap-5 w-full p-5 scroll-smooth no-scrollbar">
                     {
                         searchResult.map((item,index)=>

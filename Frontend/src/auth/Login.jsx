@@ -68,6 +68,7 @@ export default function Login() { // Renommé AuthForm en Login
       setIsLoginView(true); // Basculer vers le formulaire de connexion
 
       navigate("/");
+      window.location.href = window.location.href;
     } catch (error) {
       if (error.response) {
         setSignupError(error.response.data.detail || JSON.stringify(error.response.data));
@@ -96,6 +97,7 @@ export default function Login() { // Renommé AuthForm en Login
       setLoginUsername("");
       setLoginPassword("");
       navigate("/");
+      window.location.href = window.location.href;
     } catch (error) {
       if (error.response) {
         setLoginError(error.response.data.detail || JSON.stringify(error.response.data));

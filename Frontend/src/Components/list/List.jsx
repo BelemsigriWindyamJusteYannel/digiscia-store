@@ -20,7 +20,7 @@ const List = ({ categoryName }) => {
     },[categoryName])
     console.log("searchResult =>",searchResult)
     return(
-        <div className='w-full p-10 space-y-5 bg-gray-200 rounded-sm'>
+        <div className='w-full p-10 my-10 space-y-5 bg-gray-200 rounded-sm'>
             <div className='flex w-full justify-between sm:pl-5 sm:pr-5'>
                 <h2>{categoryName}</h2>
                 <h2>Total result {searchResult.length}</h2>
@@ -29,7 +29,7 @@ const List = ({ categoryName }) => {
                 <div className='w-full h-10 bg-blue-300 rounded-sm'>
 
                 </div>
-                <div className='flex flex-wrap gap-5 justify-center  items-center'>
+                <div className='flex flex-wrap gap-5 justify-center items-center'>
                     {
                         searchResult.map((item,index)=>
                             <Item 

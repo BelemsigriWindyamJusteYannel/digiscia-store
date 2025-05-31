@@ -11,13 +11,13 @@ const Footer = () => {
         getProfile().then(data => {
             setProfile(data);
         });
-    })
+    },[])
 
     return <div className='pt-10 bg-orange-400'>
         <section className='flex flex-col items-center space-y-5 pb-5 sm:flex-row sm:px-10 sm:justify-around'>
             <div className='flex-col'>
                 <Link to='/'>
-                    <h2 className='font-extrabold text-2xl'>DigiScia</h2>
+                    <h2 className='font-extrabold text-2xl'>DigiSciaStore</h2>
                     <div className='flex justify-center'>
                         <img className='w-20 h-20' src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Electron_Software_Framework_Logo.svg/langfr-800px-Electron_Software_Framework_Logo.svg.png" alt="ElectroInfos" />
                     </div>
@@ -59,7 +59,7 @@ const Footer = () => {
         </section>
         <div className='flex p-1 pl-10 bg-gray-100 text-gray-600'>
             <Copyright />
-            <h3 className='font-bold'>DigiScia-All Rights Reserved</h3>
+            <h3 className='font-bold'>DigiSciaStore-All Rights Reserved</h3>
         </div>
     </div>
 }
