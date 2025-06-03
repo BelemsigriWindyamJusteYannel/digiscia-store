@@ -9,24 +9,15 @@ const Carousel = () => {
     const images = getProducts.data.map(item=>item.image);
 
     const previousSlide = () =>{
-        if(currentSlide===0){
-            return setCurrentSlide(()=>{
-                return images.length - 1;
-            })
-        }
-        return setCurrentSlide(()=>{
-            return currentSlide - 1;
-        })
+        setCurrentSlide((prev) =>
+      prev === 0 ? images.length - 1 : prev - 1
+    );
     }
     const nextSlide = () =>{
-        if(currentSlide=== images.length - 1){
-            return setCurrentSlide(()=>{
-                return 0;
-            })
-        }
-        return setCurrentSlide(()=>{
-            return currentSlide + 1;
-        })
+       setCurrentSlide((prev) =>
+      prev === images.length - 1 ? 0 : prev + 1
+    );
+
     }
      useEffect(()=>{
         if (images.length === 0) return; // attendre qu'on ait des images
@@ -42,17 +33,20 @@ const Carousel = () => {
     console.log("images => ",images)
     console.log("images length => ",images.length)
     return(
-        <div className='w-full h-full xl:mr-30 relative flex justify-center'>
-            <img className='w-full  object-cover transition-all duration-700 ease-in-out rounded-2xl shadow-xl' src={images[currentSlide]} alt="" />         
+        <div 
+            className='w-full h-5/6 xl:mr-10 overflow-hidden relative flex justify-center border border-[#00000050] rounded-xl'
+            style={{ transform: `translateX(-${currentSlide * 100}%)` }}
+        >
+            <img className={`object-cover transition-all duration-3000 ease-in-out rounded-xl`} src={images[currentSlide]} alt="" />         
             <button
                 onClick={nextSlide} 
-                className='absolute top-1/2 right-0 bg-gray-100 hover:bg-gray-300 rounded-full p-3 mr-5'
+                className='absolute top-1/2 right-2 hover:bg-gray-100 rounded-full p-2 border border-[#00000050]'
             >
                 <ChevronRight/>
             </button>
             <button 
                 onClick={previousSlide}
-                className='absolute top-1/2 left-0 bg-gray-100 hover:bg-gray-300 rounded-full p-3 ml-5'
+                className='absolute top-1/2 left-   2 hover:bg-gray-100 rounded-full p-2 border border-[#00000050]'
             >
                 <ChevronLeft/>
             </button>

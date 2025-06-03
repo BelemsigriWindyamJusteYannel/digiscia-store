@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useAuth } from '../context/UserContext'; // Importez useAuth
-//import * as userApi from '../api/user'; // Importe les fonctions d'API utilisateur
 import { signup, login1, getProfile } from "../api/user";
 import { useNavigate } from "react-router-dom";
 import FadeInOnScroll from "../Components/fadeInOnScroll/FadeInOnScroll";

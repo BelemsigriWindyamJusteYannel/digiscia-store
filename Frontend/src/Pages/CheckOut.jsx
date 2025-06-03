@@ -38,9 +38,9 @@ const CheckOut = () => {
 
     return(
         <FadeInOnScroll>
-            <div className="bg-gray-200">
+            <div className="">
                 <div className="w-full max-w-3xl mx-auto p-8">
-                    <div className="bg-white p-8 rounded-lg shadow-md">
+                    <div className="bg-white p-8 rounded-lg shadow-xl">
                         <h1 className="text-2xl font-bold text-gray-800 mb-4">Checkout</h1>
                         <div className="mb-6 ">
                             <h2 className="text-xl font-semibold text-gray-700 mb-2">Shipping Address</h2>

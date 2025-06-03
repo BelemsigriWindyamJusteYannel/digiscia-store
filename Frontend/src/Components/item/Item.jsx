@@ -7,16 +7,17 @@ import { cartContext } from '../../Reducers/cart/cartContext';
 import { useContext } from 'react';
 import { CartProvider } from '../../Reducers/cart/cartContext';
 import { getProducts } from '../../api/product';
+import { Button } from '../ui/button';
 
 const Item = ({id,name,description,price,available,stock,category,image}) => {
     const { dispatch } = useContext(cartContext);
 
     return(
-        <div className="w-50 max-w-sm bg-[#ffffffd2] border border-gray-200 rounded-lg shadow-2xl hover:scale-105 duration-300 ">
+        <div className="flex flex-col justify-between w-50 max-w-sm bg-[#ffffffd2] border border-gray-200 rounded-lg shadow-2xl hover:scale-105 duration-300 ">
             <div className='flex h-50'>
                 <img className="p-8 w-full  h-full" src={image} alt="product image" />
             </div>
-            <div className="px-5 pb-5">
+            <div className="px-5 pb-5 flex flex-col justify-start">
                 <Link to={`/Description/${name}`}>
                     <h5 className="text-sm font-semibold ">{name}</h5>
                 </Link>
@@ -41,8 +42,8 @@ const Item = ({id,name,description,price,available,stock,category,image}) => {
                     <span className="bg-blue-100 text-blue-800  px-2.5 py-0.5 rounded-sm dark:bg-blue-200 dark:text-blue-800 ms-3">5.0</span>
                 </div>
                 <div className="flex items-center justify-between">
-                    <span className="text-[10px] text-gray-900">{price} DHS</span>
-                    <p className="text-white bg-amber-400 rounded-lg py-1 px-2 text-center hover:scale-110 hover:cursor-pointer" 
+                    <span className="text-[10px] text-gray-900 font-bold">{price} DHS</span>
+                    <Button className="text-white bg-amber-400  text-center hover:scale-110 hover:cursor-pointer" 
                     onClick={()=>{
                         const product= getProducts.data.find(element=>element.id == id)
                         console.log("products =>",product)
@@ -54,7 +55,7 @@ const Item = ({id,name,description,price,available,stock,category,image}) => {
                             count: 1,
                             preprice: price
                         } 
-                    })}}>Add to cart</p>
+                    })}}>Add to cart</Button>
                 </div>
             </div>
         </div>

@@ -2,6 +2,8 @@ import image from '../carousel/Laptop.jpeg'
 import { getProducts } from '../../api/product';
 import { cancelCommandById,getCommands } from '../../api/command';
 import { sendCancelingConfirmation } from '../../api/email';
+import { Button } from '../ui/button';
+import { TrashIcon } from "lucide-react"
 const CommandItem = ({ order,profile }) =>{
 
     console.log("order =>",order)
@@ -37,8 +39,7 @@ const CommandItem = ({ order,profile }) =>{
             }
             <div className='flex justify-between'>
                 <p className='font-bold'>prix total : {order.total_amount}</p>
-                <button 
-                    className='bg-red-400 p-3 rounded-2xl text-white hover:bg-red-500'
+                <Button 
                     onClick={()=>{
                         cancelCommandById(order.id)
                         .then(data=>{
@@ -59,9 +60,11 @@ const CommandItem = ({ order,profile }) =>{
                             console.log("Error => ",error)
                         })
                     }}
+                    variant="destructive" 
                 >
+                    <TrashIcon className="-ms-1 opacity-60" size={16} aria-hidden="true" />
                     Cancel order
-                </button>
+                </Button>
             </div>
         </div>
     )

@@ -3,6 +3,7 @@ import { getProfile } from "../api/user";
 import { useEffect, useState } from "react";
 import { modifyClient } from "../api/user";
 import FadeInOnScroll from "../Components/fadeInOnScroll/FadeInOnScroll";
+import { Button } from "../Components/ui/button";
 
 const MonCompte = () => {
     const [profile, setProfile] = useState({});
@@ -95,8 +96,8 @@ const MonCompte = () => {
                                 value={phone_number}
                             />
                         </div>
-                        <button 
-                            className="bg-orange-400 hover:bg-orange-700 rounded-xl py-3 px-2 font-bold"
+                        <Button 
+                            className="bg-orange-400 hover:bg-orange-700 rounded-xl"
                             onClick={()=>{
                                 if(profile.first_name != first_name ||
                                     profile.last_name != last_name ||
@@ -124,7 +125,7 @@ const MonCompte = () => {
                             }}
                         >
                             Appliquer les modifications
-                        </button>
+                        </Button>
                     </div>
                 </FadeInOnScroll>
             </div>

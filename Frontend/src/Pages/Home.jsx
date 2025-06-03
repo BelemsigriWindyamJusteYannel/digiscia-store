@@ -8,10 +8,11 @@ import Carousel from "../Components/carousel/Carousel";
 import "../App.css"
 import FadeInOnScroll from "../Components/fadeInOnScroll/FadeInOnScroll";
 import { getProducts } from "../api/product";
+import { CarouselPlugin } from "../Components/CarouselPlugin";
 
 const Home = () => {
     const [visible, setVisible] = useState(false);
-    const [ isMobileSize,setIsMobileSize ] = useState(window.innerWidth < 1115);
+    const [ isMobileSize,setIsMobileSize ] = useState(window.innerWidth < 889);
 
   // 🎯 Date cible = maintenant + 7 jours
   const targetDate = new Date();
@@ -48,7 +49,7 @@ const Home = () => {
     // Resizing
     const handleResizing = () => {
         setIsMobileSize(()=>{
-            return window.innerWidth < 1115;
+            return window.innerWidth < 889;
         })
     };
 
@@ -66,17 +67,19 @@ const Home = () => {
 
     return(
         <div>
-            <div className={`w-full flex gap-10 items-center  p-10 flex-row xl:justify-between shadow-xl h-screen transition-opacity duration-1000 ease-out ${
+            <div className={`w-full flex items-center gap-20 p-10 flex-row justify-center md:h-screen transition-opacity duration-1000 ease-in ${
         visible? "opacity-100" : "opacity-0"}`}>
                 {
                     !isMobileSize ?(
-                        <Categories/>
+                        <div>
+                            <Categories/>
+                        </div>
                     ) : (
                         <></>
                     )
                 }
-                <div className="w-full h-full">
-                    <Carousel/>
+                <div className="w-full flex justify-center">
+                    <CarouselPlugin/>
                 </div>
             </div>
             <FadeInOnScroll>

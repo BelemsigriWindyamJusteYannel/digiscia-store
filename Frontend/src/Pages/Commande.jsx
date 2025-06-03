@@ -38,7 +38,7 @@ const Commande = () => {
                     </ul>
                 </FadeInOnScroll>
             </div>
-            <div className="sm:flex w-full h-screen">
+            <div className="sm:flex w-full h-screen overflow-scroll">
                 <FadeInOnScroll>
                     <div className="flex-1 ">
                         <div className="w-full border border-gray-300 p-5 rounded-sm bg-gray-100 border-b-red-300">

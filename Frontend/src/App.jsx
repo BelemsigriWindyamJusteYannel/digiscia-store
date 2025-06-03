@@ -17,7 +17,7 @@ import FadeInOnScroll from './Components/fadeInOnScroll/FadeInOnScroll';
 
 const App = () => {
   return(
-    <div>
+    <div className='flex flex-col justify-between h-screen'>
       <UserProvider>
         <SearchContextProvider>
           <CartProvider>
