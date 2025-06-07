@@ -157,7 +157,6 @@ EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication', # Utilise JWT pour l'authentification
-        'rest_framework.authentication.SessionAuthentication', # Pour l'accès via le navigateur (facultatif)
     ),
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny', # Par défaut, autorise tout (à ajuster en production)

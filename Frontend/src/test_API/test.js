@@ -1,3 +1,4 @@
+/*
 import axios from 'axios';
 
 
@@ -11,7 +12,7 @@ export const categories = await axios.get("http://localhost:8000/categories").th
     return data.data;
 })
 
-/*
+
 export const userName = async (email) => {
   console.log(email)
   await axios.get(`http://localhost:8000/api/getusername/${email}/`).then( data=>{
@@ -22,8 +23,7 @@ export const userName = async (email) => {
 console.log("Categories => ", categories)
 console.log("Products => ", products)
 
-*/
-/*
+
 
 axios.post('http://localhost:8000/api/send-email/', {
   to: 'windyamjusteyannel.belemsigri@usmba.ac.ma',

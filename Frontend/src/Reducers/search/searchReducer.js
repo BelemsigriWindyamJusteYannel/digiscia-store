@@ -1,4 +1,5 @@
-import { categories, products } from "../../test_API/test";
+//import { categories, products } from "../../test_API/test";
+import { getProducts } from "../../api/product";
 
 
 export const searchReducer = (state,action) =>{
@@ -6,7 +7,7 @@ export const searchReducer = (state,action) =>{
         case 'search/global':
             console.log("Current state =>",state)
             const target = []
-            products.map(element=>{
+            getProducts.data.map(element=>{
                 if(element.category.name == action.payload.target){
                     target.push(element);
                 }
