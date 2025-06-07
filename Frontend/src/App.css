@@ -4,3 +4,13 @@
   padding: 2rem;
   padding-bottom: 0;
 }
+
+/* Cacher la scrollbar mais garder le scroll */
+.custom-scroll-hide {
+  scrollbar-width: none;        /* Firefox */
+  -ms-overflow-style: none;     /* IE 10+ */
+}
+
+.custom-scroll-hide::-webkit-scrollbar {
+  display: none;                /* Chrome, Safari, Edge, Opera */
+}

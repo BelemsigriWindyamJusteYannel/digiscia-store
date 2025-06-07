@@ -16,6 +16,7 @@ import Signin from '../Signin';
 import Hamburger from '../Hamburger';
 import { Button } from '../ui/button';
 import Profile from '../Profile';
+import { uContext } from '../../Reducers/user/uContext';
 
 
 const Header = () => {
@@ -26,6 +27,7 @@ const Header = () => {
     //const [isOpen, setOpen] = useState(false)
     const { cart } = useContext(cartContext)
     const [ isMobileSize,setIsMobileSize ] = useState(window.innerWidth < 1283);
+    const { user } = useContext(uContext)
     const handleSearchSubmit = async (e) => {
         e.preventDefault();
         const result = await searchProduct(searched)
@@ -92,41 +94,39 @@ const Header = () => {
                         <Search className="h-5 w-5" />
                     </button>
             </form>
-            <div className='flex items-center justify-around w-full sm:w-1/3 pl-5'>
+            <div className='flex items-center justify-around w-full md:w-1/3 pl-5'>
                 <Link to='/Panier' className='relative'>
-                    <div className='p-2 bg-[#fff] rounded-full border border-gray-300'>
-                        <ShoppingCart className='hover:scale-125 hover:duration-300'/>
+                    <div className='py-1 px-2 bg-[#fff] rounded-lg border border-gray-300 hover:scale-125 hover:duration-300'>
+                        <ShoppingCart/>
                     </div>
                     <div className='bg-red-500 rounded-full text-center text-[#fff] absolute top-0 -right-4 sm:-top-3 sm:-right-2 w-5 animate-bounce'>
                         <p>{cart.length}</p>
                     </div>
                 </Link>
-                <div className='flex items-center gap-3 pl-3'>
-                    <Link to={`/Connection`}>
-                        <Button 
-                            variant="outline"
-                            className="border border-gray-300"
-                        >
-                            Sign in
-                        </Button>
-                    </Link>
-                    <div>
-                        {
-                            profile.first_name ?(
-                                <div className='flex flex-col items-center'>
-                                    <Link to='Connection'>
-                                        <Profile/>
-                                    </Link>
-                                    <h2 className='text-xs font-extralight text-center'>{profile.first_name} {profile.last_name}</h2>
-                                </div>
-                            ) : (
-                                <div>
+                <Link to={`/Connection`}>
+                    <Button 
+                        variant="outline"
+                        className="border border-gray-300 hover:scale-125 hover:duration-300"
+                    >
+                        Sign in
+                    </Button>
+                </Link>
+                <div>
+                    {
+                        user.user ?(
+                            <div className='flex flex-col items-center'>
+                                <Link to='Connection'>
+                                    <Profile/>
+                                </Link>
+                                
+                            </div>
+                        ) : (
+                            <div>
 
-                                </div>
+                            </div>
 
-                            )
-                        }
-                    </div>
+                        )
+                    }
                 </div>
             </div>
         </div>

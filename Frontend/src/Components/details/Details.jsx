@@ -9,6 +9,12 @@ import { useParams } from 'react-router-dom'
 import { cartContext } from '../../Reducers/cart/cartContext'
 //import { products, categories } from '../../test_API/test'
 import { getProducts } from '../../api/product'
+import { Button } from '../ui/button'
+import Comment from '../comment/Comment'
+import Rating from '../Rating'
+import { getProfile } from '../../api/user'
+
+
 const Details = () => {
     const [ clicked, setClicked ] = useState(false);
     const { searchResult, searchDispatch } = useContext(SearchContext)
@@ -17,8 +23,13 @@ const Details = () => {
     const { dispatch } = useContext(cartContext);
     const item = getProducts.data.find((item)=>item.name == name)
     console.log(item)
-    useEffect(()=>{
+    const [ profile, setProfile ] = useState({})
 
+
+    useEffect(()=>{
+        getProfile().then(data => {
+            setProfile(data);
+        });
         searchDispatch({
             type: "search/global",
             payload: {
@@ -52,12 +63,12 @@ const Details = () => {
                     <p>{item.current_price} DHS</p>
                     {
                         item.stock > 0 ? (
-                            <button 
+                            <Button 
                                 onClick={handleAddCart}
-                                className='bg-amber-500 hover:bg-amber-600 p-2 pl-10 pr-10 rounded-3xl'
+                                className='bg-amber-500 hover:bg-amber-600 text-[#ffffff]'
                             >
                                 Ajouter au panier
-                            </button>
+                            </Button>
                         ) : (
                             <div className='bg-red-200 text-center text-red-400 p-2 pl-10 pr-10 rounded-smp'>
                                 <p>Rupture de stok</p>
@@ -71,12 +82,12 @@ const Details = () => {
                     <div>
                         <h1 
                             className='font-semibold text-xl text-center border-b border-gray-200 cursor-pointer'
-                            onClick={()=>setClicked(prev=>!prev)}>Description</h1>
+                            onClick={()=>setClicked(prev=>false)}>Description</h1>
                     </div>
                     <div>
                         <h1 
                             className='font-semibold text-xl text-center border-b border-gray-200 cursor-pointer'
-                            onClick={()=>setClicked(prev=>!prev)}>Comments</h1>
+                            onClick={()=>setClicked(prev=>true)}>Comments</h1>
                     </div>
                 </div>
                 {
@@ -88,12 +99,7 @@ const Details = () => {
                         </div>
                     ) : (
                         <div>
-                            <p className='text-justify'>
-                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente, 
-                                    repudiandae? Ullam, asperiores non iure minus, 
-                                    quasi ipsa ipsam vero adipisci iusto
-                                    consectetur doloremque minima nobis ex dolore harum porro magni.
-                            </p>
+                            <Comment profile={profile} product={item}/>
                         </div>
                     )
                 }

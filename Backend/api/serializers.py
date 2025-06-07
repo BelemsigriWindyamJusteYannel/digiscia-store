@@ -106,7 +106,8 @@ class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
         fields = '__all__'
-        read_only_fields = ('client', 'product', 'created_data')
+        read_only_fields = ('client', 'created_date')
+
     
 
 
@@ -130,7 +131,7 @@ class OrderSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Order
-        fields = ('id', 'status', 'order_date', 'client', 'client_username', 'total_amount', 'order_products', 'payment_status')
+        fields = ('id', 'status', 'order_date', 'client', 'client_username', 'total_amount', 'order_products', 'payment_status','delivery_planned_date','delivery_date')
         read_only_fields = ('client', 'total_amount', 'order_date')
 
 # Payment serializer

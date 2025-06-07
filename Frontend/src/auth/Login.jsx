@@ -1,12 +1,15 @@
-import { useState } from "react";
-import { useAuth } from '../context/UserContext'; // Importez useAuth
-import { signup, login1, getProfile } from "../api/user";
+import { useContext, useState } from "react";
+//import { useAuth } from '../context/UserContext'; // Importez useAuth
+import { getProfile } from "../api/user";
 import { useNavigate } from "react-router-dom";
 import FadeInOnScroll from "../Components/fadeInOnScroll/FadeInOnScroll";
+import { uContext } from '../Reducers/user/uContext'
+import { saveToken,login,signup } from "../api/accountServices";
 
 export default function Login() { // Renommé AuthForm en Login
   const navigate = useNavigate();
-  const { login } = useAuth(); // Accédez à la fonction login du contexte
+  //const { login } = useAuth(); // Accédez à la fonction login du contexte
+  const { user,userDispatch } = useContext(uContext);
 
   const [isLoginView, setIsLoginView] = useState(true); // true = formulaire login, false = inscription
 
@@ -20,7 +23,7 @@ export default function Login() { // Renommé AuthForm en Login
   const [signupPostalCode, setSignupPostalCode] = useState("");
   const [signupError, setSignupError] = useState(null);
   const [signupMessage, setSignupMessage] = useState(null);
-  const [phoneNumber, setPhoneNumber] = useState(null);
+  const [phoneNumber, setPhoneNumber] = useState("");
 
   // États pour login
   const [loginUsername, setLoginUsername] = useState("");
@@ -51,10 +54,9 @@ export default function Login() { // Renommé AuthForm en Login
     };
 
     try {
-      const data = await signup(signupData); // Utilise la fonction signup de user.js
+      const data = await signup(signupData); 
       console.log(data)
       setSignupMessage("Compte créé avec succès ! Veuillez vous connecter.");
-      login(data.access, data.refresh, data.username); // Appelle la fonction login du contexte
 
       // Réinitialiser le formulaire
       setFirstName("");
@@ -65,9 +67,17 @@ export default function Login() { // Renommé AuthForm en Login
       setSignupCity("");
       setSignupPostalCode("");
       setIsLoginView(true); // Basculer vers le formulaire de connexion
-
-      navigate("/");
-      window.location.href = window.location.href;
+      
+      await getProfile()
+      .then(data=>{
+        userDispatch({
+            type :"user/add", 
+            payload: {
+                user: data,
+            } 
+        })
+      })
+      
     } catch (error) {
       if (error.response) {
         setSignupError(error.response.data.detail || JSON.stringify(error.response.data));
@@ -87,16 +97,31 @@ export default function Login() { // Renommé AuthForm en Login
     setLoginMessage(null);
 
     try {
-      const data = await login1(loginUsername, loginPassword); // Utilise la fonction login de user.js
-      console.log(data)
       setLoginMessage("Connexion réussie !");
-      login(data.access, data.refresh, loginUsername); // Appelle la fonction login du contexte
+      await login(loginUsername, loginPassword)
+      .then(data=>{
+        //console.log("data =>",data)
+        //console.log("access =>",data.data.access)
+        //console.log("refresh =>",data.data.refresh)
+        saveToken(data.data.access,data.data.refresh);
+      });
 
       // Réinitialiser le formulaire
       setLoginUsername("");
       setLoginPassword("");
+      
+      await getProfile()
+      .then(data=>{
+        userDispatch({
+            type :"user/add", 
+            payload: {
+                user: data,
+            } 
+        })
+      })
+      
       navigate("/");
-      window.location.href = window.location.href;
+      //window.location.href = window.location.href;
     } catch (error) {
       if (error.response) {
         setLoginError(error.response.data.detail || JSON.stringify(error.response.data));
@@ -109,17 +134,12 @@ export default function Login() { // Renommé AuthForm en Login
     }
   };
 
-  getProfile()
-  .then(data=>{
-    console.log(data)
-  })
-
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
+    <div className="min-h-screen flex items-center justify-center p-10">
       {isLoginView ? (
         // Formulaire de connexion
         <FadeInOnScroll>
-          <form onSubmit={handleLogin} className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+          <form onSubmit={handleLogin} className="bg-white p-8 rounded-lg shadow-xl w-full max-w-md">
             <h2 className="text-3xl font-bold text-center text-gray-800 mb-6">Connexion</h2>
             <div className="space-y-4">
               <div>

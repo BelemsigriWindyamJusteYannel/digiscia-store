@@ -1,3 +1,4 @@
+/*
 import { createContext, useState, useEffect, useContext } from 'react';
 import * as userApi from '../api/user'; // Importe toutes les fonctions de user.js
 
@@ -25,14 +26,7 @@ export const UserProvider = ({ children }) => {
     setLoading(false); // Le chargement initial est terminé
   }, []);
 
-  /**
-   * Fonction de connexion.
-   * Stocke les tokens et le nom d'utilisateur, et met à jour l'état global.
-   * Cette fonction est appelée par Login.jsx après un succès.
-   * @param {string} access - Le token d'accès JWT.
-   * @param {string} refresh - Le token de rafraîchissement JWT.
-   * @param {string} user - Le nom d'utilisateur.
-   */
+
   const login = (access, refresh, user) => {
     localStorage.setItem('accessToken', access);
     localStorage.setItem('refreshToken', refresh);
@@ -42,11 +36,7 @@ export const UserProvider = ({ children }) => {
     setUsername(user);
   };
 
-  /**
-   * Fonction de déconnexion.
-   * Supprime les tokens du localStorage et réinitialise l'état global.
-   * Appelle également l'API de déconnexion côté serveur.
-   */
+
   const logout = async () => {
     const currentRefreshToken = localStorage.getItem('refreshToken');
     if (currentRefreshToken) {
@@ -92,3 +82,4 @@ export const useAuth = () => {
   }
   return context;
 };
+*/

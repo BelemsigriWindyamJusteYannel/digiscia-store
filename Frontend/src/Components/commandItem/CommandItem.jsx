@@ -8,14 +8,12 @@ const CommandItem = ({ order,profile }) =>{
 
     console.log("order =>",order)
     return(
-        <div className='border border-gray-200 p-5 rounded-sm space-y-5'>
+        <div className='border border-gray-200 p-5 rounded-sm space-y-5 '>
             <h2 className='font-bold'>Date : {order.order_date}</h2>
             <div>
-                <h1 className='font-bold'>Etat de livraison produit : { order.status }</h1>
+                <h1 className='font-bold '>Etat de livraison produit : <span className='text-red-500'>{ order.status }</span></h1>
                 <p className='text-justify'>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Non inventore
-                    recusandae ex sit, totam, error repudiandae veniam fuga atque debitis
-                    laborum veritatis ea cum repellat voluptate odio cupiditate, quod fugit.
+                    Votre commande vous sera livré le {order.delivery_planned_date} .
                 </p>
             </div>
             {

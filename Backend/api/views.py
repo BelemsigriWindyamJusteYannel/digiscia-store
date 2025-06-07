@@ -74,24 +74,6 @@ def login_view(request):
             status=status.HTTP_401_UNAUTHORIZED
         )
 
-# Logout
-@api_view(['POST'])
-@permission_classes([IsAuthenticated])
-def logout_view(request):
-    """
-    Vue API pour la déconnexion d'un utilisateur.
-    Blackliste le refresh token actuel, invalidant ainsi les tokens futurs.
-    """
-    try:
-        refresh_token = request.data.get("refresh") # Le client doit envoyer son refresh token
-        if not refresh_token:
-            return Response({"detail": "Refresh token manquant."}, status=status.HTTP_400_BAD_REQUEST)
-        token = RefreshToken(refresh_token)
-        token.blacklist() # Blackliste le token de rafraîchissement
-        return Response({"message": "Déconnexion réussie."}, status=status.HTTP_200_OK)
-    except Exception as e:
-        return Response({"detail": f"Erreur lors de la déconnexion: {e}"}, status=status.HTTP_400_BAD_REQUEST)
-
 # User 
 # Get user profile
 @api_view(['GET'])
@@ -143,30 +125,16 @@ def category_list_view(request):
     return Response(serializer.data)
 
 # Category detail
-@api_view(['GET', 'PUT', 'DELETE'])
+@api_view(['GET'])
 @permission_classes([AllowAny]) # GET pour tous, PUT/DELETE pour IsAdminUser
 def category_detail_view(request, pk):
     """
     Récupère, met à jour ou supprime une catégorie.
     """
     category = get_object_or_404(Category, pk=pk)
-    if request.method == 'GET':
-        serializer = CategorySerializer(category)
-        return Response(serializer.data)
-    elif request.method == 'PUT':
-        if not request.user.is_staff: # Seuls les administrateurs peuvent modifier
-            return Response({"detail": "Vous n'avez pas la permission de modifier cette catégorie."}, status=status.HTTP_403_FORBIDDEN)
-        serializer = CategorySerializer(category, data=request.data, partial=True)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    elif request.method == 'DELETE':
-        if not request.user.is_staff: # Seuls les administrateurs peuvent supprimer
-            return Response({"detail": "Vous n'avez pas la permission de supprimer cette catégorie."}, status=status.HTTP_403_FORBIDDEN)
-        category.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
-
+    serializer = CategorySerializer(category)
+    return Response(serializer.data)
+    
 
 # Product
 # Get product list
@@ -267,6 +235,7 @@ def comment_list_create_view(request):
             return Response({"detail": "Profil client non trouvé pour l'utilisateur connecté."}, status=status.HTTP_400_BAD_REQUEST)
 
         data = request.data.copy()
+        print(data)
         # Le sérialiseur gérera l'association du produit via 'product' dans data
         serializer = CommentSerializer(data=data)
         if serializer.is_valid():
@@ -304,6 +273,18 @@ def comment_detail_view(request, pk):
             return Response({"detail": "Vous n'avez pas la permission de supprimer ce commentaire."}, status=status.HTTP_403_FORBIDDEN)
         comment.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+# Rating
+@api_view(['GET'])
+def product_rate(request, product_id):
+    #serializer = ProductSerializer(product)
+    def average_rating():
+        comments = Comment.objects.filter(product__id=product_id)
+        if comments.exists():
+            return round(sum(comment.rating for comment in comments) / comments.count(), 1)
+        return 0
+    return Response(average_rating())
+
 
 # Order
 # Get Order list or Create Order
@@ -557,4 +538,3 @@ def send_email(request):
     )
 
     return Response({'status': 'Email envoyé avec succès'})
-

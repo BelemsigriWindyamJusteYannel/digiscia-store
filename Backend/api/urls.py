@@ -9,7 +9,7 @@ urlpatterns = [
     # URLs d'authentification JWT
     path('signup/', views.signup_view, name='signup'),
     path('login/', views.login_view, name='login'),
-    path('logout/', views.logout_view, name='logout'),
+    #path('logout/', views.logout_view, name='logout'),
     path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'), # Endpoint pour obtenir les tokens
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'), # Endpoint pour rafraîchir le token
     path('profile/', views.user_profile_view, name='user_profile'),
@@ -23,6 +23,8 @@ urlpatterns = [
     path('products/', views.product_list_view, name='product_list_create'),
     path('products/<int:pk>/', views.product_detail_view, name='product_detail'),
     path('products/search/', views.search_products_similar, name='search-products'),
+    # Rating
+    path('products/rate/<int:product_id>/', views.product_rate, name='product-detail-api'),
 
     # URLs pour les commentaires
     path('comments/', views.comment_list_create_view, name='comment_list_create'),
@@ -38,5 +40,6 @@ urlpatterns = [
     
     # Send emails
     path('send-email/', views.send_email, name='send_email'),
+
 ]
 

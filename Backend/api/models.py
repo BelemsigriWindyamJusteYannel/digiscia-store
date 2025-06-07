@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
+from datetime import timedelta
 
 # Create your models here.
 
@@ -44,6 +45,7 @@ class Product(models.Model):
 class Comment(models.Model):
     content = models.TextField()
     created_date = models.DateTimeField(auto_now_add=True)
+    rating = models.PositiveSmallIntegerField(default=0)
     # fk
     client = models.ForeignKey(Client, on_delete=models.CASCADE, related_name="comments")
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="comments")
@@ -60,10 +62,14 @@ ORDER_STATUS_CHOICES = [
     ('delivered', 'Delivered'), # Ajout d'un statut "delivered"
 ]
 
+def get_default_planned_date():
+    return timezone.now().date() + timedelta(days=7)
 # Order
 class Order(models.Model):
     status = models.CharField(max_length=20, choices=ORDER_STATUS_CHOICES, default='pending')
     order_date = models.DateField(auto_now_add=True)
+    delivery_planned_date = models.DateField(default=get_default_planned_date) 
+    delivery_date = models.DateField(null=True, blank=True) 
     total_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     # fk
     client = models.ForeignKey(Client, on_delete=models.CASCADE, related_name="orders")

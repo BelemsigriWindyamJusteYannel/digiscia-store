@@ -1,4 +1,4 @@
-import { CircleUserRoundIcon } from "lucide-react"
+import { UserRoundCheck } from 'lucide-react';
 import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
@@ -9,14 +9,17 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { UserContext } from "../context/UserContext";
+//import { UserContext } from "../context/UserContext";
 import { useContext } from "react";
-import { logout } from "../auth/logout";
 import { Link } from 'react-router-dom';
+import { uContext } from "../Reducers/user/uContext";
+import { logout } from "../api/accountServices";
+
 
 export default function Profile() {
-  const { username } = useContext(UserContext);
-  console.log(username)
+  //const { username,logout } = useContext(UserContext);
+  const { user,userDispatch } = useContext(uContext)
+  //console.log(username)
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -24,15 +27,21 @@ export default function Profile() {
           size="icon" 
           variant="outline" 
           aria-label="Open account menu"
-          className="border border-gray-300 p-2 rounded-full">
-          <CircleUserRoundIcon size={16} aria-hidden="true" />
+          className="border border-gray-300 p-2 rounded-full hover:scale-125 hover:duration-300">
+          <UserRoundCheck   />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="max-w-64 border border-gray-300">
         <DropdownMenuLabel className="flex flex-col">
           <span>Signed in as</span>
           <span className="text-foreground text-xs font-normal">
-            {username}
+            {
+              user.user ? (
+                <p>{user.user.username}</p>
+              ) : (
+                <></>
+              )
+            }
           </span>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
@@ -48,7 +57,10 @@ export default function Profile() {
         <DropdownMenuItem 
           onClick={()=>{
             logout();
-            //window.location.href = window.location.href;
+            userDispatch({
+              type:"user/clear",
+            })
+
           }}
         >
           Logout

@@ -12,34 +12,37 @@ import { SearchContextProvider } from './Reducers/search/SearchContext';
 import MonCompte from './Pages/MonCompte';
 import Commande from './Pages/Commande';
 import CheckOut from './Pages/CheckOut';
-import { UserProvider } from './context/UserContext';
+//import { UserProvider } from './context/UserContext';
 import FadeInOnScroll from './Components/fadeInOnScroll/FadeInOnScroll';
+import { UProvider } from './Reducers/user/uContext';
 
 const App = () => {
   return(
     <div className='flex flex-col justify-between h-screen'>
-      <UserProvider>
-        <SearchContextProvider>
-          <CartProvider>
-            <BrowserRouter>
-              <Header/>
-              <Routes>
-                  <Route path='/' element={<Home/>}></Route>
-                  <Route path='/Description/:name' element={<Description/>}></Route>
-                  <Route path='/Panier' element={<Panier/>}></Route>
-                  <Route path='/CategoriesPage/:name' element={<CategoriesPage/>}></Route>
-                  <Route path='/Connection' element={<Connection/>}></Route>
-                  <Route path='/Compte' element={<MonCompte/>}></Route>
-                  <Route path='/Commandes' element={<Commande/>}></Route>
-                  <Route path='/Checkout/:totalPrice' element={<CheckOut/>}></Route>
-              </Routes>
-              <FadeInOnScroll>
-                <Footer/>
-              </FadeInOnScroll>
-            </BrowserRouter>
-          </CartProvider>
-        </SearchContextProvider>
-      </UserProvider>
+      <UProvider>
+        
+          <SearchContextProvider>
+            <CartProvider>
+              <BrowserRouter>
+                <Header/>
+                <Routes>
+                    <Route path='/' element={<Home/>}></Route>
+                    <Route path='/Description/:name' element={<Description/>}></Route>
+                    <Route path='/Panier' element={<Panier/>}></Route>
+                    <Route path='/CategoriesPage/:name' element={<CategoriesPage/>}></Route>
+                    <Route path='/Connection' element={<Connection/>}></Route>
+                    <Route path='/Compte' element={<MonCompte/>}></Route>
+                    <Route path='/Commandes' element={<Commande/>}></Route>
+                    <Route path='/Checkout/:totalPrice' element={<CheckOut/>}></Route>
+                </Routes>
+                <FadeInOnScroll>
+                  <Footer/>
+                </FadeInOnScroll>
+              </BrowserRouter>
+            </CartProvider>
+          </SearchContextProvider>
+        
+      </UProvider>
     </div>
   )
 }

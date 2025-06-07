@@ -1,3 +1,30 @@
+
+import axios from 'axios'
+import { isLogged,getToken } from './accountServices'
+const api = axios.create({
+  baseURL:'http://localhost:8000/',
+  headers:{
+    "Content-Type":"application/json",
+  }
+})
+
+api.interceptors.request.use(
+  (config) => {
+    const access = localStorage.getItem('access');
+    if (access) {
+      config.headers.Authorization = `Bearer ${access}`;
+    }
+    return config;
+  }
+)
+
+export default api;
+
+
+
+
+
+/*
 import axios from 'axios';
 
 // Crée une instance Axios avec une URL de base
@@ -108,3 +135,4 @@ api.interceptors.response.use(
 );
 
 export default api;
+*/

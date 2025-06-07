@@ -32,9 +32,9 @@ const MonCompte = () => {
     //console.log("phone_number =>",phone_number)
     return(
         <div className="flex flex-col items-center md:items-start md:flex-row p-10 gap-10 h-screen">
-            <div className="w-60">
+            <div className="w-60 ">
                 <FadeInOnScroll>
-                    <ul className="flex flex-col items-center gap-2 md:items-start">
+                    <ul className="flex flex-col items-center gap-2 md:items-start border border-gray-300 p-5 rounded-xl">
                         <Link to='/Compte'>
                             <li className="font-bold text-red-500">Votre Compte</li>
                         </Link>

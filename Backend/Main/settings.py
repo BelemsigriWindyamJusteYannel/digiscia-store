@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/5.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -40,6 +40,7 @@ CORS_ALLOWED_ORIGINS = [
 
 INSTALLED_APPS = [
     'corsheaders',
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -136,6 +137,7 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
@@ -170,7 +172,6 @@ SIMPLE_JWT = {
 }
 
 
-import os
 
 # Chemin de base du projet
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -179,3 +180,54 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 MEDIA_URL = '/media/' # URL pour les fichiers médias (images)
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media') # Chemin physique pour stocker les médias
 
+
+
+# styling
+JAZZMIN_SETTINGS = {
+    "site_title": "DigiScia Admin",
+    "site_header": "DigiScia",
+    "site_brand": "DigiScia Admin",
+    "site_logo": None,  # Si tu veux un logo
+    "welcome_sign": "Bienvenue sur la plateforme d'administration DigiScia",
+    "copyright": "DigiScia",
+    
+    "search_model": ["auth.User", "api.Product"],
+
+    "topmenu_links": [
+        {"name": "Accueil", "url": "http://localhost:8000/admin/", "permissions": ["auth.view_user"]},
+        {"name": "Site", "url": "http://localhost:5173/", "permissions": ["auth.view_user"]},
+        {"model": "auth.User"},
+        {"app": "api"},
+    ],
+
+    "show_sidebar": True,
+    "navigation_expanded": True,
+    "hide_apps": [],
+    "hide_models": [],
+
+    "order_with_respect_to": ["auth", "api"],
+
+    "icons": {
+        "auth": "fas fa-users",
+        "auth.user": "fas fa-user",
+        "api.Client": "fas fa-user-circle",
+        "api.Category": "fas fa-tags",
+        "api.Product": "fas fa-box",
+        "api.Comment": "fas fa-comment",
+        "api.Order": "fas fa-shopping-cart",
+        "api.Payment": "fas fa-credit-card",
+        "api.OrderProduct": "fas fa-clipboard-list",
+    },
+
+    "default_icon_parents": "fas fa-folder",
+    "default_icon_children": "fas fa-dot-circle",
+
+    "related_modal_active": True,
+    "custom_css": None,
+    "custom_js": None,
+     # ✅ Enlève le pied de page avec les versions
+    "show_footer": False,
+    
+    # Optionnel : empêche d'afficher le bouton "UI Builder" si présent
+    "show_ui_builder": False,
+}
