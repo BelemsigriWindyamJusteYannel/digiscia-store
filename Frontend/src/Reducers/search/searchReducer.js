@@ -25,7 +25,7 @@ export const searchReducer = (state,action) =>{
                 if( element.current_price > action.payload.filterMinPrice & element.current_price < action.payload.filterMaxPrice ){
                     filteredValues.push(element);
                 }
-            }) : products.map(element=>{
+            }) : getProducts.data.map(element=>{
                 if( element.current_price > action.payload.filterMinPrice 
                     & element.current_price < action.payload.filterMaxPrice 
                     & element.category.name == action.payload.target )

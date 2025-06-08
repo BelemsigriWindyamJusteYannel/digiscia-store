@@ -1,11 +1,13 @@
 import './Footer.css'
 import { Copyright,Facebook,Instagram   } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getProfile } from '../../api/user';
+import { uContext } from '../../Reducers/user/uContext';
 const Footer = () => {
     const [ profile, setProfile ] = useState({})
+    const {user} = useContext(uContext);
     const navigate = useNavigate();
     useEffect(()=>{
         getProfile().then(data => {
@@ -40,18 +42,19 @@ const Footer = () => {
             <div className='font-bold text-center space-y-1 sm:text-start'>
                 <div className='font-extrabold text-xl'>
                     <p className='cursor-pointer' onClick={()=>{
-                        if(profile.first_name){
+                        if(user.first_name){
+                            //console.log(profile.first_name)
                             navigate('/Compte');
                         }
                     }}>Mon compte</p>
                 </div>
                 <p className='cursor-pointer' onClick={()=>{
-                    if(profile.first_name){
+                    if(user.first_name){
                         navigate('/Compte');
                     }
                 }}>Details du compte</p>
                 <p className='cursor-pointer' onClick={()=>{
-                    if(profile.first_name){
+                    if(user.first_name){
                         navigate('/Commandes');
                     }
                 }}>Mes commandes</p>

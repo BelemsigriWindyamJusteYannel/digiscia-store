@@ -71,7 +71,7 @@ export default function PriceSlider({ categoryName }) {
       <Button 
         onClick={handleFilter}
         type="button" 
-        className="text-gray-900 bg-gray-400 hover:bg-gray-500 font-medium rounded-xl text-sm px-5 py-2.5 me-2 mb-2"
+        className="text-gray-900 bg-gray-400 hover:bg-gray-500 font-medium rounded-xl text-sm px-5 py-2.5 me-2 mb-2 active:scale-110 transition-transform duration-100"
       >
         Filtrer
       </Button>

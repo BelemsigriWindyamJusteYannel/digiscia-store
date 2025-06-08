@@ -27,7 +27,7 @@ export default function Profile() {
           size="icon" 
           variant="outline" 
           aria-label="Open account menu"
-          className="border border-gray-300 p-2 rounded-full hover:scale-125 hover:duration-300">
+          className="border border-gray-300 p-2 rounded-full active:scale-110 transition-transform duration-100">
           <UserRoundCheck   />
         </Button>
       </DropdownMenuTrigger>

@@ -8,9 +8,11 @@ import { getProducts } from "../../api/product";
 import FadeInOnScroll from "../fadeInOnScroll/FadeInOnScroll";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
+import { uContext } from "../../Reducers/user/uContext";
 const Cart = () => {
     const { cart,dispatch } = useContext(cartContext);
     const [ totalPrice, setTotalPrice ] = useState(0)
+    const { user } = useContext(uContext);
     //const [ quantity, setQuantity ] = useState(1)
     //const [ conformed, setConformed ] = useState(false)
     const navigate = useNavigate();
@@ -99,6 +101,7 @@ const Cart = () => {
                                                 </div>
                                                 
                                                 <Button 
+                                                    className="active:scale-110 transition-transform duration-100"
                                                     onClick={() => dispatch({type:"product/remove", payload: item.id})}
                                                     variant="destructive"    
                                                 >
@@ -110,13 +113,13 @@ const Cart = () => {
                                     }
                                     <div className="flex flex-col gap-5 sm:flex-row justify-center items-center">
                                         <Button 
-                                        className="bg-orange-400 hover:bg-orange-500 text-[#fff]"
+                                        className="bg-orange-400 hover:bg-orange-500 text-[#fff] active:scale-110 transition-transform duration-100"
                                         onClick={handleTotalPrice}
                                         >
                                             Mettre le panier à jour
                                         </Button>
                                         <Button 
-                                        className="bg-orange-400 hover:bg-orange-500 text-[#fff]"
+                                        className="bg-orange-400 hover:bg-orange-500 text-[#fff] active:scale-110 transition-transform duration-100"
                                         onClick={handleClean}
                                         >
                                             Vider le panier
@@ -148,17 +151,21 @@ const Cart = () => {
                                     </div>
                                 </div>
                                     <Button 
-                                        className=" bg-orange-400 hover:bg-orange-500 text-[#fff]"
+                                        className=" bg-orange-400 hover:bg-orange-500 text-[#fff] active:scale-110 transition-transform duration-100"
                                         onClick={()=>{
                                             let total = 0;
                                             cart.map((item)=>{
                                                 //console.log(item)
                                                 total = parseInt(item.preprice + total)
                                             })
-                                            if(totalPrice == total){
-                                                navigate(`/Checkout/${totalPrice}`);
-                                            }else{
-                                                alert("Veuillez mettre à jour le panier");
+                                            if(user.first_name){
+                                                if(totalPrice == total){
+                                                    navigate(`/Checkout/${totalPrice}`);
+                                                }else{
+                                                    alert("Veuillez mettre à jour le panier");
+                                                }
+                                            }else {
+                                                navigate(`/Connection`);
                                             }
                                         }}
                                     >

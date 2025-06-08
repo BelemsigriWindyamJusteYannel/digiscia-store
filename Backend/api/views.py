@@ -21,6 +21,11 @@ from .serializers import (
 from django.contrib.postgres.search import SearchQuery, SearchVector
 #from django.db.models import Q
 
+from django.contrib.postgres.search import TrigramSimilarity
+from django.db.models import F
+
+from django.core.mail import send_mail
+
 # Create your views here.
 
 
@@ -149,7 +154,7 @@ def product_list_view(request):
     return Response(serializer.data)
 
 # Product detail
-@api_view(['GET', 'PUT', 'DELETE'])
+@api_view(['GET', 'PUT'])
 @permission_classes([AllowAny]) # GET pour tous, PUT/DELETE pour IsAdminUser
 def product_detail_view(request, pk):
     """
@@ -169,11 +174,7 @@ def product_detail_view(request, pk):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    elif request.method == 'DELETE':
-        if not request.user.is_staff: # Seuls les administrateurs peuvent supprimer
-            return Response({"detail": "Vous n'avez pas la permission de supprimer ce produit."}, status=status.HTTP_403_FORBIDDEN)
-        product.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+
 
 # Search products
 @api_view(['GET'])
@@ -190,8 +191,7 @@ def search_products(request):
     return Response(serializer.data)
 
 
-from django.contrib.postgres.search import TrigramSimilarity
-from django.db.models import F
+
 @api_view(['GET'])
 def search_products_similar(request):
     query = request.GET.get('q', '')
@@ -273,6 +273,7 @@ def comment_detail_view(request, pk):
             return Response({"detail": "Vous n'avez pas la permission de supprimer ce commentaire."}, status=status.HTTP_403_FORBIDDEN)
         comment.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
 
 # Rating
 @api_view(['GET'])
@@ -404,78 +405,6 @@ def order_detail_view(request, pk):
             order.delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
 
-# More
-@api_view(['GET', 'POST', 'DELETE']) # Ajout de DELETE pour supprimer un OrderProduct d'une commande
-@permission_classes([IsAuthenticated]) # Seuls les utilisateurs authentifiés peuvent ajouter/voir/supprimer des produits à une commande
-def order_product_list_create_delete_view(request, order_pk):
-    """
-    Liste les produits d'une commande spécifique, ajoute un produit à cette commande ou supprime un produit.
-    """
-    try:
-        client_profile = request.user.client_profile
-    except Client.DoesNotExist:
-        return Response({"detail": "Profil client non trouvé pour l'utilisateur."}, status=status.HTTP_400_BAD_REQUEST)
-    
-    order = get_object_or_404(Order, pk=order_pk, client=client_profile)
-
-    if request.method == 'GET':
-        order_products = OrderProduct.objects.filter(order=order)
-        serializer = OrderProductSerializer(order_products, many=True)
-        return Response(serializer.data)
-    elif request.method == 'POST':
-        # Ajout d'un produit à une commande existante
-        product_id = request.data.get('product_id') # Changement de 'product' à 'product_id' pour plus de clarté
-        quantity = request.data.get('quantity')
-
-        if not product_id or not quantity or not isinstance(quantity, int) or quantity <= 0:
-            return Response({"detail": "Veuillez fournir un ID de produit et une quantité valide."}, status=status.HTTP_400_BAD_REQUEST)
-        
-        product = get_object_or_404(Product, pk=product_id)
-
-        if product.stock < quantity:
-            return Response({"detail": f"Stock insuffisant pour le produit {product.name}. Stock disponible: {product.stock}"}, status=status.HTTP_400_BAD_REQUEST)
-        
-        with transaction.atomic():
-            # Vérifie si le produit existe déjà dans la commande
-            order_product, created = OrderProduct.objects.get_or_create(
-                order=order,
-                product=product,
-                defaults={'quantity': quantity, 'oneself_price': product.current_price}
-            )
-            if not created:
-                # Si le produit existe déjà, met à jour la quantité
-                order_product.quantity += quantity
-                order_product.save()
-            
-            # Diminue le stock du produit
-            Product.objects.filter(pk=product_id).update(stock=F('stock') - quantity)
-            
-            # Mettre à jour le total de la commande
-            order.total_amount += order_product.oneself_price * quantity
-            order.save()
-
-            serializer = OrderProductSerializer(order_product)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-    elif request.method == 'DELETE':
-        # Supprime un produit d'une commande
-        product_id = request.data.get('product_id')
-        if not product_id:
-            return Response({"detail": "Veuillez fournir l'ID du produit à supprimer."}, status=status.HTTP_400_BAD_REQUEST)
-        
-        order_product = get_object_or_404(OrderProduct, order=order, product__id=product_id)
-
-        with transaction.atomic():
-            # Remettre le stock du produit
-            product = order_product.product
-            Product.objects.filter(pk=product.pk).update(stock=F('stock') + order_product.quantity)
-            
-            # Mettre à jour le total de la commande
-            order.total_amount -= order_product.oneself_price * order_product.quantity
-            order.save()
-
-            order_product.delete()
-            return Response({"message": "Produit retiré de la commande."}, status=status.HTTP_204_NO_CONTENT)
-
 # Payment 
 
 @api_view(['GET', 'POST']) # GET pour voir, POST pour créer un paiement pour une commande
@@ -515,10 +444,8 @@ def payment_list_create_view(request, order_pk):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-# Email
 
-from django.core.mail import send_mail
-# EMAIL SENDER
+# Email
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def send_email(request):

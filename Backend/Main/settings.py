@@ -36,6 +36,7 @@ ALLOWED_HOSTS = [
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
 ]
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -156,10 +157,10 @@ EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 # Configuration Django REST Framework avec JWT
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication', # Utilise JWT pour l'authentification
+        'rest_framework_simplejwt.authentication.JWTAuthentication', 
     ),
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.AllowAny', # Par défaut, autorise tout (à ajuster en production)
+        'rest_framework.permissions.AllowAny',
     ]
 }
 
@@ -186,7 +187,7 @@ JAZZMIN_SETTINGS = {
     "site_title": "DigiScia Admin",
     "site_header": "DigiScia",
     "site_brand": "DigiScia Admin",
-    "site_logo": None,  # Si tu veux un logo
+    "site_logo": None,
     "welcome_sign": "Bienvenue sur la plateforme d'administration DigiScia",
     "copyright": "DigiScia",
     

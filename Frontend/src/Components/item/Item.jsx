@@ -36,7 +36,7 @@ const Item = ({id,name,description,price,available,stock,category,image}) => {
                 </div>
                 <div className="flex items-center justify-between">
                     <span className="text-[10px] text-gray-900 font-bold">{price} DHS</span>
-                    <Button className="text-white bg-amber-400  text-center hover:scale-110 hover:cursor-pointer" 
+                    <Button className="text-white bg-amber-400  text-center active:scale-110 transition-transform duration-100 hover:cursor-pointer" 
                     onClick={()=>{
                         const product= getProducts.data.find(element=>element.id == id)
                         console.log("products =>",product)

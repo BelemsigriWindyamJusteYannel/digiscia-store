@@ -6,6 +6,8 @@ import { setCommande } from "../api/command";
 import { sendOrderConfirmation } from "../api/email";
 import { useNavigate } from "react-router-dom";
 import FadeInOnScroll from "../Components/fadeInOnScroll/FadeInOnScroll";
+import { Button } from "../Components/ui/button";
+
 const CheckOut = () => {
     const [profile, setProfile] = useState({});
     const { dispatch } = useContext(cartContext)
@@ -152,8 +154,8 @@ const CheckOut = () => {
                             )
                     }
                         <div className="mt-8 flex justify-end">
-                            <button 
-                                className="bg-teal-500 text-white px-4 py-2 rounded-lg hover:bg-teal-700"
+                            <Button 
+                                className="bg-teal-500 text-white px-4 py-2 rounded-lg hover:bg-teal-700 active:scale-110 transition-transform duration-100"
                                 onClick={ async ()=>{
                                     const response = await setCommande(products);
                                     console.log("response =>",response);
@@ -170,7 +172,7 @@ const CheckOut = () => {
                                         navigate("/")
                                     });
                                 }}    
-                            >Place Order</button>
+                            >Place Order</Button>
                         </div>
                     </div>
                 </div>

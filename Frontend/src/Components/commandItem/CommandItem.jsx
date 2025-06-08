@@ -38,6 +38,7 @@ const CommandItem = ({ order,profile }) =>{
             <div className='flex justify-between'>
                 <p className='font-bold'>prix total : {order.total_amount}</p>
                 <Button 
+                    className="active:scale-110 transition-transform duration-100"
                     onClick={()=>{
                         cancelCommandById(order.id)
                         .then(data=>{
@@ -60,7 +61,7 @@ const CommandItem = ({ order,profile }) =>{
                     }}
                     variant="destructive" 
                 >
-                    <TrashIcon className="-ms-1 opacity-60" size={16} aria-hidden="true" />
+                    <TrashIcon className="-ms-1 opacity-60 " size={16} aria-hidden="true" />
                     Cancel order
                 </Button>
             </div>

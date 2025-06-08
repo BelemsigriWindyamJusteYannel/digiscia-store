@@ -74,7 +74,7 @@ const Header = () => {
                     
                 </div>
                 <Link to='/'>
-                    <h2 className='font-extrabold text-xl'>DigiSciaStore</h2>
+                    <h2 className='font-bold font-heading text-2xl'>DigiSciaStore</h2>
                 </Link>
             </div>
             <form onSubmit={(e) => handleSearchSubmit(e)} className="relative flex w-full md:w-96 rounded-lg bg-white shadow-md">
@@ -96,7 +96,7 @@ const Header = () => {
             </form>
             <div className='flex items-center justify-around w-full md:w-1/3 pl-5'>
                 <Link to='/Panier' className='relative'>
-                    <div className='py-1 px-2 bg-[#fff] rounded-lg border border-gray-300 hover:scale-125 hover:duration-300'>
+                    <div className='py-1 px-2 bg-[#fff] rounded-lg border border-gray-300 active:scale-110 transition-transform duration-100'>
                         <ShoppingCart/>
                     </div>
                     <div className='bg-red-500 rounded-full text-center text-[#fff] absolute top-0 -right-4 sm:-top-3 sm:-right-2 w-5 animate-bounce'>
@@ -106,7 +106,7 @@ const Header = () => {
                 <Link to={`/Connection`}>
                     <Button 
                         variant="outline"
-                        className="border border-gray-300 hover:scale-125 hover:duration-300"
+                        className="border border-gray-300 active:scale-110 transition-transform duration-100"
                     >
                         Sign in
                     </Button>

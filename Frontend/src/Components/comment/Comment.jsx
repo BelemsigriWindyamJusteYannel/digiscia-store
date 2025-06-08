@@ -21,7 +21,10 @@ const Comment = ({profile,product}) => {
 
     useEffect(()=>{
         setComments(getComment.data.filter(com=>com.product_name == product.name))
-        setRateComment(getComment.data.find(com=> com.product_name == product.name & com.client_username == profile.user.username || true   ))
+        //console.log("profile =>",profile)
+        if(profile.user){
+            setRateComment(getComment.data.find(com=> com.product_name == product.name & com.client_username == profile.user.username ))
+        }
     },[]);
     //console.log("currentDate =>",currentDate)
     console.log("client =>",profile)

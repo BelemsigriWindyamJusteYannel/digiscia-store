@@ -65,7 +65,7 @@ const Details = () => {
                         item.stock > 0 ? (
                             <Button 
                                 onClick={handleAddCart}
-                                className='bg-amber-500 hover:bg-amber-600 text-[#ffffff]'
+                                className='bg-amber-500 hover:bg-amber-600 text-[#ffffff] active:scale-110 transition-transform duration-100'
                             >
                                 Ajouter au panier
                             </Button>
@@ -86,14 +86,14 @@ const Details = () => {
                     </div>
                     <div>
                         <h1 
-                            className='font-semibold text-xl text-center border-b border-gray-200 cursor-pointer'
+                            className='font-semibold  text-xl text-center border-b border-gray-200 cursor-pointer'
                             onClick={()=>setClicked(prev=>true)}>Comments</h1>
                     </div>
                 </div>
                 {
                     !clicked ? (
                         <div>
-                            <p className='text-justify '>
+                            <p className='text-justify font-heading'>
                                 {item.description}
                             </p>
                         </div>

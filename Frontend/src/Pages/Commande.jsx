@@ -26,7 +26,7 @@ const Commande = () => {
     console.log("orders =>",orders);
 
     return(
-        <div className="flex flex-col items-center md:items-start md:flex-row p-10 gap-10">
+        <div className="flex flex-col items-center md:items-start md:flex-row p-10 gap-10 h-screen mb-10">
             <div className="w-60 ">
                 <FadeInOnScroll>
                     <ul className="flex flex-col items-center gap-2 md:items-start border border-gray-300 p-5 rounded-xl">
@@ -39,17 +39,17 @@ const Commande = () => {
                     </ul>
                 </FadeInOnScroll>
             </div>
-            <div className="sm:flex w-full h-screen">
+            <div className="sm:flex w-full h-full">
                 <FadeInOnScroll>
                     <div className="w-full border border-gray-300 p-5 rounded-sm bg-gray-100 border-b-red-300">
                         <h2>Commandes en cours</h2>
                     </div>
-                    <div className="h-full flex flex-col overflow-scroll custom-scroll-hide justify-center py-100">
+                    <div className="h-full flex flex-col overflow-scroll custom-scroll-hide justify-between ">
                         
                         {
                             orders.length ? (
                                 orders.map((item,index)=>(
-                                    <div key={index} className=" border-t-red-300 pt-10">
+                                    <div key={index} className=" border-t-red-300">
                                         <CommandItem order={item} profile={profile} />
                                     </div>
                                 ))
