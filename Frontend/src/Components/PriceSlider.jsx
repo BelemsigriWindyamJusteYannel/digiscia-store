@@ -1,7 +1,7 @@
 import { useState } from "react"
 
-import { Label } from "@/components/ui/label"
-import { Slider } from "@/components/ui/slider"
+import { Label } from "@/Components/ui/label"
+import { Slider } from "@/Components/ui/slider"
 import { SearchContext } from "../Reducers/search/SearchContext"
 import { useContext } from "react"
 import { Button } from "./ui/button"

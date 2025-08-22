@@ -1,7 +1,7 @@
 import { useEffect, useId, useState } from "react"
 import { RiStarFill } from "@remixicon/react"
 
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+import { RadioGroup, RadioGroupItem } from "@/Components/ui/radio-group"
 //import { postComment } from "../api/Comment"
 import { getProductRate } from "../api/product"
 import { Button } from "./ui/button"

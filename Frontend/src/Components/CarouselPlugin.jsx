@@ -3,14 +3,14 @@
 import * as React from "react"
 import Autoplay from "embla-carousel-autoplay"
 
-import { Card, CardContent } from "@/components/ui/card"
+import { Card, CardContent } from "@/Components/ui/card"
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from "@/components/ui/carousel"
+} from "@/Components/ui/carousel"
 import { getProducts } from "../api/product"
 
 export function CarouselPlugin() {

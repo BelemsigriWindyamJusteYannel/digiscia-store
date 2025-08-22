@@ -1,5 +1,5 @@
 import { UserRoundCheck } from 'lucide-react';
-import { Button } from "@/components/ui/button"
+import { Button } from "@/Components/ui/button"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -8,7 +8,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/Components/ui/dropdown-menu"
 //import { UserContext } from "../context/UserContext";
 import { useContext } from "react";
 import { Link } from 'react-router-dom';

@@ -1,6 +1,6 @@
 import { useState } from "react"
 
-import { Button } from "@/components/ui/button"
+import { Button } from "@/Components/ui/button"
 import { getCategories } from "../api/category";
 import { Link } from 'react-router-dom'
 import "../App.css"
