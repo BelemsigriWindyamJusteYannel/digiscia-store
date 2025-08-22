@@ -20,7 +20,7 @@ import { uContext } from '../../Reducers/user/uContext';
 
 
 const Header = () => {
-    const [ profile, setProfile ] = useState({})
+    //const [ profile, setProfile ] = useState({})
     const [ searched, setSearched ] = useState('')
     const { searchDispatch } = useContext(SearchContext)
     const navigate = useNavigate();
@@ -28,6 +28,7 @@ const Header = () => {
     const { cart } = useContext(cartContext)
     const [ isMobileSize,setIsMobileSize ] = useState(window.innerWidth < 1283);
     const { user } = useContext(uContext)
+    const { userDispatch } = useContext(uContext);
     const handleSearchSubmit = async (e) => {
         e.preventDefault();
         const result = await searchProduct(searched)
@@ -45,10 +46,14 @@ const Header = () => {
     }
 
     useEffect(()=>{
+        userDispatch({
+            type :"user/add"
+        })
+        /*
         getProfile().then(data => {
             setProfile(data);
         });
-
+        */
         const handleResizing = () => {
             setIsMobileSize(()=>{
                 return window.innerWidth < 1283;
@@ -60,6 +65,7 @@ const Header = () => {
         return () => window.removeEventListener('resize',handleResizing);
     },[])
 
+    console.log("user =>",user)
     return(
         <div className='flex flex-col items-start px-10 py-2 space-y-2 md:flex-row md:items-center md:justify-between md:py-5 bg-orange-400 shadow-2xl rounded-xl'>
             <div className='flex space-x-3 items-center mr-1'>
@@ -113,7 +119,7 @@ const Header = () => {
                 </Link>
                 <div>
                     {
-                        user.user ?(
+                        user ?(
                             <div className='flex flex-col items-center'>
                                 <Link to='Connection'>
                                     <Profile/>

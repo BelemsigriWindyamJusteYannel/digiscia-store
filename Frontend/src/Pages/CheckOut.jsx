@@ -7,29 +7,33 @@ import { sendOrderConfirmation } from "../api/email";
 import { useNavigate } from "react-router-dom";
 import FadeInOnScroll from "../Components/fadeInOnScroll/FadeInOnScroll";
 import { Button } from "../Components/ui/button";
+import { uContext } from "../Reducers/user/uContext";
 
 const CheckOut = () => {
-    const [profile, setProfile] = useState({});
+    //const [profile, setProfile] = useState({});
     const { dispatch } = useContext(cartContext)
     const navigate = useNavigate();
+    const {user} = useContext(uContext);
+    /*
     useEffect(() => {
     getProfile().then(data => {
         setProfile(data);
     });
     }, []);
+    */
 
     const [ cardChecked, setCardChecked ] = useState(false)
 
     const { cart } = useContext(cartContext)
-    console.log("cart =>",cart)
+    //console.log("cart =>",cart)
     const { totalPrice } = useParams();
-    console.log("cart total price =>",totalPrice)
+    //console.log("cart total price =>",totalPrice)
 
     const products = []
     cart.map((item)=>{
         products.push({"product_id": item.id , "quantity": item.count})
     })
-    console.log("products to be inserted =>",products)
+    //console.log("products to be inserted =>",products)
 
     // cleaning the cart
     const handleClean = () => {
@@ -53,7 +57,7 @@ const CheckOut = () => {
                                         type="text" 
                                         id="first_name" 
                                         className="w-full rounded-lg border py-2 px-3 "
-                                        value={profile.first_name}    
+                                        value={user.first_name}    
                                     />
                                 </div>
                                 <div>
@@ -62,7 +66,7 @@ const CheckOut = () => {
                                         type="text" 
                                         id="last_name" 
                                         className="w-full rounded-lg border py-2 px-3"
-                                        value={profile.last_name} 
+                                        value={user.last_name} 
                                     />
                                 </div>
                             </div>
@@ -72,7 +76,7 @@ const CheckOut = () => {
                                     type="text" 
                                     id="number" 
                                     className="w-full rounded-lg border py-2 px-3"
-                                    value={profile.phone_number}  
+                                    value={user.phone_number}  
                                 />
                             </div>
                             <div className="mt-4">
@@ -81,7 +85,7 @@ const CheckOut = () => {
                                     type="text" 
                                     id="city" 
                                     className="w-full rounded-lg border py-2 px-3"
-                                    value={profile.city}     
+                                    value={user.city}     
                                 />
                             </div>
 
@@ -92,7 +96,7 @@ const CheckOut = () => {
                                         type="text" 
                                         id="zip" 
                                         className="w-full rounded-lg border py-2 px-3"
-                                        value={profile.postal_code}     
+                                        value={user.postal_code}     
                                     />
                                 </div>
                             </div>
@@ -160,7 +164,7 @@ const CheckOut = () => {
                                     const response = await setCommande(products);
                                     console.log("response =>",response);
                                     handleClean();
-                                    sendOrderConfirmation(profile)
+                                    sendOrderConfirmation(user)
                                     .then(response => {
                                         console.log(response.data.status);
                                         alert("Commande enregistrée avec succès, un mail de confirmation vous sera envoyé");

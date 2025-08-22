@@ -108,24 +108,7 @@ const Comment = ({profile,product}) => {
                                             <path d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z"/>
                                         </svg>
                                     </button>
-                                    <div id="dropdownComment4"
-                                        className="hidden z-10 w-36 bg-white rounded divide-y divide-gray-100 shadow ">
-                                        <ul className="py-1 text-sm text-gray-700 "
-                                            aria-labelledby="dropdownMenuIconHorizontalButton">
-                                            <li>
-                                                <a href="#"
-                                                    className="block py-2 px-4 hover:bg-gray-100 ">Edit</a>
-                                            </li>
-                                            <li>
-                                                <a href="#"
-                                                    className="block py-2 px-4 hover:bg-gray-100 ">Remove</a>
-                                            </li>
-                                            <li>
-                                                <a href="#"
-                                                    className="block py-2 px-4 hover:bg-gray-100 ">Report</a>
-                                            </li>
-                                        </ul>
-                                    </div>
+                                    
                                 </footer>
                                 <p className="text-gray-500 dark:text-gray-400">{com.content}</p>
                             </article>

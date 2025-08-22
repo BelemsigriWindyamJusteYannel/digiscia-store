@@ -4,3 +4,5 @@ django
 psycopg2
 python-decouple
 djangorestframework-simplejwt
+Pillow
+django-jazzmin

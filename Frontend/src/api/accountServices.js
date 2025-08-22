@@ -2,8 +2,8 @@ import api from "./api";
 
 
 export const saveToken = (access,refresh) => {
-    console.log("access saved =>",access)
-    console.log("refresh saved =>",refresh)
+    //console.log("access saved =>",access)
+    //console.log("refresh saved =>",refresh)
     localStorage.setItem("access",access)
     localStorage.setItem("refresh",refresh)
 }

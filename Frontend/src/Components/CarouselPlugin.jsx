@@ -17,7 +17,8 @@ export function CarouselPlugin() {
   const plugin = React.useRef(
     Autoplay({ delay: 2000, stopOnInteraction: true })
   )
-  const images = getProducts.data.map(item=>item.image);
+  const allImages = getProducts.data.slice(0,5) 
+  const images = allImages.map(item=>item.image);
 
   return (
     <Carousel

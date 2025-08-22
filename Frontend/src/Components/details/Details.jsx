@@ -13,9 +13,12 @@ import { Button } from '../ui/button'
 import Comment from '../comment/Comment'
 import Rating from '../Rating'
 import { getProfile } from '../../api/user'
+import { uContext } from '../../Reducers/user/uContext'
+import AutoScrollContainer from '../AutoScrollContainer'
 
 
 const Details = () => {
+    const { user } = useContext(uContext);
     const [ clicked, setClicked ] = useState(false);
     const { searchResult, searchDispatch } = useContext(SearchContext)
     const { name } = useParams();
@@ -23,18 +26,19 @@ const Details = () => {
     const { dispatch } = useContext(cartContext);
     const item = getProducts.data.find((item)=>item.name == name)
     console.log(item)
-    const [ profile, setProfile ] = useState({})
+    //const [ profile, setProfile ] = useState({})
 
 
     useEffect(()=>{
+        /*
         getProfile().then(data => {
             setProfile(data);
         });
+        */
         searchDispatch({
             type: "search/global",
             payload: {
-                target: name,
-                data: getProducts.data
+                target: item.category.name,
             }
         })
     },[])
@@ -50,6 +54,7 @@ const Details = () => {
             }
         })
     }
+    console.log("name =>",name)
     return(
         <div className='flex flex-col gap-10 w-full xl:w-2/3 shadow-xl rounded-2xl p-10'>
             <div className='flex flex-col gap-5 w-full justify-around sm:flex-row'>
@@ -94,19 +99,20 @@ const Details = () => {
                     !clicked ? (
                         <div>
                             <p className='text-justify font-heading'>
-                                {item.description}
+                                {item.description}  
                             </p>
                         </div>
                     ) : (
                         <div>
-                            <Comment profile={profile} product={item}/>
+                            <Comment profile={user} product={item}/>
                         </div>
                     )
                 }
             </div>
             <div className='space-y-5 overflow-hidden '>
                 <h1 className='font-semibold text-xl text-center border-b border-gray-200 '>Produits similaire</h1>
-                <div className="flex overflow-x-auto gap-5 w-full p-5 scroll-smooth no-scrollbar">
+                
+                    <AutoScrollContainer>
                     {
                         searchResult.map((item,index)=>
                             <Item 
@@ -122,7 +128,8 @@ const Details = () => {
                             />
                         )
                     }
-                </div>
+                    </AutoScrollContainer>
+                
             </div>
         </div>
     )

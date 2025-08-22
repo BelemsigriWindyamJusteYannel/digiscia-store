@@ -17,13 +17,14 @@ const Cart = () => {
     //const [ conformed, setConformed ] = useState(false)
     const navigate = useNavigate();
 
-    const [profile, setProfile] = useState({});
-
+    //const [profile, setProfile] = useState({});
+    /*
     useEffect(() => {
         getProfile().then(data => {
         setProfile(data); // ✅ met à jour l'état, donc provoque un re-render
         });
     }, []);
+    */
     const handleQuantity = async (e, id ) =>{
         const value = parseInt(e.target.value, 10);
         if(value > 0){
@@ -142,7 +143,7 @@ const Cart = () => {
                                         </div>
                                         <div className="pb-2 flex justify-between">
                                             <p>Ville:</p>
-                                            <p>{profile.city}</p>
+                                            <p>{user.city}</p>
                                         </div>
                                     </div>
                                     <div className="pb-2 flex justify-between">

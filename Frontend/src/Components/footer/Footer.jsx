@@ -6,15 +6,16 @@ import { useNavigate } from 'react-router-dom';
 import { getProfile } from '../../api/user';
 import { uContext } from '../../Reducers/user/uContext';
 const Footer = () => {
-    const [ profile, setProfile ] = useState({})
+    //const [ profile, setProfile ] = useState({})
     const {user} = useContext(uContext);
     const navigate = useNavigate();
+    /*
     useEffect(()=>{
         getProfile().then(data => {
             setProfile(data);
         });
     },[])
-
+    */
     return <div className='pt-10 bg-orange-400'>
         <section className='flex flex-col items-center space-y-5 pb-5 sm:flex-row sm:px-10 sm:justify-around'>
             <div className='flex-col'>

@@ -14,12 +14,13 @@ import { useContext } from "react";
 import { Link } from 'react-router-dom';
 import { uContext } from "../Reducers/user/uContext";
 import { logout } from "../api/accountServices";
-
+import { useNavigate } from 'react-router-dom';
 
 export default function Profile() {
   //const { username,logout } = useContext(UserContext);
   const { user,userDispatch } = useContext(uContext)
   //console.log(username)
+  const navigate = useNavigate()
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -60,7 +61,8 @@ export default function Profile() {
             userDispatch({
               type:"user/clear",
             })
-
+            //navigate("/");
+            window.location.href = window.location.href;
           }}
         >
           Logout

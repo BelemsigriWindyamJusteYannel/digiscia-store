@@ -9,7 +9,7 @@ import { saveToken,login,signup } from "../api/accountServices";
 export default function Login() { // Renommé AuthForm en Login
   const navigate = useNavigate();
   //const { login } = useAuth(); // Accédez à la fonction login du contexte
-  const { user,userDispatch } = useContext(uContext);
+  const { userDispatch } = useContext(uContext);
 
   const [isLoginView, setIsLoginView] = useState(true); // true = formulaire login, false = inscription
 
@@ -55,7 +55,7 @@ export default function Login() { // Renommé AuthForm en Login
 
     try {
       const data = await signup(signupData); 
-      console.log(data)
+      //console.log(data)
       setSignupMessage("Compte créé avec succès ! Veuillez vous connecter.");
 
       // Réinitialiser le formulaire
@@ -70,14 +70,15 @@ export default function Login() { // Renommé AuthForm en Login
       
       await getProfile()
       .then(data=>{
+        console.log("data =>",data);
         userDispatch({
             type :"user/add", 
             payload: {
-                user: data,
+                user: data
             } 
         })
       })
-      
+      navigate("/");
     } catch (error) {
       if (error.response) {
         setSignupError(error.response.data.detail || JSON.stringify(error.response.data));
@@ -97,13 +98,13 @@ export default function Login() { // Renommé AuthForm en Login
     setLoginMessage(null);
 
     try {
-      setLoginMessage("Connexion réussie !");
       await login(loginUsername, loginPassword)
       .then(data=>{
         //console.log("data =>",data)
         //console.log("access =>",data.data.access)
         //console.log("refresh =>",data.data.refresh)
         saveToken(data.data.access,data.data.refresh);
+        setLoginMessage("Connexion réussie !");
       });
 
       // Réinitialiser le formulaire
@@ -112,10 +113,11 @@ export default function Login() { // Renommé AuthForm en Login
       
       await getProfile()
       .then(data=>{
+        console.log("data =>",data);
         userDispatch({
             type :"user/add", 
             payload: {
-                user: data,
+                user: data
             } 
         })
       })
